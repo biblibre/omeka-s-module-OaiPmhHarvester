@@ -1,5 +1,10 @@
 # Changelog (BibLibre modifications)
 
+## [3.4.14+biblibre.2] - 2024-09-20
+
+- Get the correct total number of sets from resumptionToken when it's set
+  (https://github.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/pull/6)
+
 ## [3.4.14+biblibre.1] - 2024-09-20
 
 - Do not stop harvest when ListRecords request failed on the first try
@@ -7,4 +12,5 @@
 - Fix isXmlEndpoint request URL
   (https://github.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/pull/5)
 
+[3.4.14+biblibre.2]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.14+biblibre.2
 [3.4.14+biblibre.1]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.14+biblibre.1
