@@ -266,11 +266,8 @@ class Harvest extends AbstractJob
             );
         }
 
+        $default_to_private = $services->get('Omeka\Settings')->get('default_to_private', false);
         $harvesterMap = $this->harvesterMapManager->get($metadataPrefix);
-        $harvesterMap->setOptions([
-            'o:is_public' => !$services->get('Omeka\Settings')->get('default_to_private', false),
-            'o:item_set' => $itemSetId ? [['o:id' => $itemSetId]] : [],
-        ]);
 
         $resumptionToken = false;
         $recordIndex = 0;
@@ -384,6 +381,13 @@ class Harvest extends AbstractJob
                 $toInsert[$identifier] = [];
                 $resources = $harvesterMap->mapRecord($record);
                 foreach ($resources as $resource) {
+                    $resource['o:is_public'] ??= !$default_to_private;
+
+                    if ($itemSetId) {
+                        $resource['o:item_set'] ??= [];
+                        $resource['o:item_set'][] = ['o:id' => $itemSetId];
+                    }
+
                     $toInsert[$identifier][] = $resource;
                     $stats['medias'] += !empty($resource['o:media']) ? count($resource['o:media']) : 0;
                     ++$stats['imported'];
