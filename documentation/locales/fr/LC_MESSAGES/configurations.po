@@ -1,0 +1,246 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, BibLibre
+# This file is distributed under the same license as the OAI-PMH Harvester
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: OAI-PMH Harvester\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-21 13:41+0100\n"
+"PO-Revision-Date: 2025-03-21 14:02+0100\n"
+"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>\n"
+"Language-Team: fr <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Generated-By: Babel 2.17.0\n"
+"X-Generator: Poedit 3.5\n"
+
+#: ../../configurations.rst:2
+msgid "Configurations"
+msgstr "Configurations"
+
+#: ../../configurations.rst:4
+msgid ""
+"Configurations are where various settings (including mappings) can be stored "
+"and shared among multiple sources."
+msgstr ""
+"Les configurations sont l'endroit où des paramètres variés peuvent être "
+"stockés et partagés par plusieurs sources."
+
+#: ../../configurations.rst:6
+msgid "Configurations consist of:"
+msgstr "Les configurations consistent en:"
+
+#: ../../configurations.rst:8
+msgid "A name,"
+msgstr "Un nom,"
+
+#: ../../configurations.rst:9
+msgid ""
+"A converter, which is the component responsible for converting an OAI-PMH "
+"record into data suitable for Omeka,"
+msgstr ""
+"Un convertisseur, qui est le composant responsable de convertir une notice OAI-"
+"PMH en données adaptées à Omeka,"
+
+#: ../../configurations.rst:10
+msgid ""
+"A list of settings that depends on the selected converter (if the converter is "
+"configurable)."
+msgstr ""
+"Une liste de paramètres qui dépend du convertisseur sélectionné (si le "
+"convertisseur est configurable)."
+
+#: ../../configurations.rst:12
+msgid ""
+"Configurations can be duplicated so existing configurations can be used as a "
+"starting point for new configurations."
+msgstr ""
+"Les configurations peuvent être dupliquées, ainsi les configurations "
+"existantes peuvent servir de point de départ pour des nouvelles configurations."
+
+#: ../../configurations.rst:14
+msgid ""
+"By default there are 3 non-configurable converters that use the same mappings "
+"as one-off harvests: oai_dc, oai_dcterms and mets. There is also one "
+"configurable converter, \"XPath converter\", that allows users to specify "
+"their own mappings using XPath expressions."
+msgstr ""
+"Par défaut il y a 3 convertisseurs non configurables qui utilisent les mêmes "
+"correspondances que les moissons ponctuelles: oai_dc, oai_dcterms et mets. Il "
+"y a aussi un convertisseur configurable, \"Convertisseur XPath\", qui permet "
+"aux utilisateurs de spécifier leurs propres correspondances en utilisant des "
+"expressions XPath."
+
+#: ../../configurations.rst:19
+msgid "Other Omeka modules may provide additional converters."
+msgstr "D'autres modules Omeka peuvent fournir des convertisseurs additionnels."
+
+#: ../../configurations.rst:22
+msgid "Add a new configuration"
+msgstr "Ajouter une nouvelle configuration"
+
+#: ../../configurations.rst:24
+msgid ""
+"To create a new configuration, go to the \"Configurations\" page (accessible "
+"from the administration menu)."
+msgstr ""
+"Pour créer une nouvelle configuration, rendez-vous sur la page "
+"\"Configurations\" (accessible depuis le menu d'administration)."
+
+#: ../../configurations.rst:28
+msgid "Then click on the \"Add new configuration\" button."
+msgstr "Puis cliquez sur le bouton \"Ajouter une nouvelle configuration\"."
+
+#: ../../configurations.rst:32
+msgid ""
+"Enter a name for the new configuration, choose the XPath converter and then "
+"click on the \"Add\" button."
+msgstr ""
+"Saisissez un nom pour la nouvelle configuration, sélectionnez le convertisseur "
+"XPath puis cliquez sur le bouton \"Ajouter\"."
+
+#: ../../configurations.rst:36
+msgid "Then you will have two important fields to set:"
+msgstr "Ensuite vous aurez deux champs importants à remplir:"
+
+#: ../../configurations.rst:38
+msgid "XML namespaces"
+msgstr "Espaces de noms XML"
+
+#: ../../configurations.rst:39
+msgid ""
+"Namespaces used by your XPath expressions must be registered here. The only "
+"exception is the `oai` namespace which is always registered."
+msgstr ""
+"Les espaces de noms utilisés par vos expressions XPath doivent être "
+"enregistrés ici. La seule exception est l'espace de noms ``oai`` qui est "
+"toujours enregistré."
+
+#: ../../configurations.rst:42
+msgid ""
+"There must be only one namespace per line, in the format: ``<prefix> = "
+"<uri>``, for instance ``oai_dc = http://www.openarchives.org/OAI/2.0/oai_dc/``."
+msgstr ""
+"Il doit y avoir un seul espace de noms par ligne, au format: ``<préfixe> = "
+"<uri>``, par exemple ``oai_dc = http://www.openarchives.org/OAI/2.0/oai_dc/``."
+
+#: ../../configurations.rst:45
+msgid "Mappings"
+msgstr "Correspondances"
+
+#: ../../configurations.rst:46
+msgid "This is where you define how OAI records will be converted to Omeka items"
+msgstr ""
+"C'est ici que vous définissez comment les notices OAI seront converties en "
+"contenus Omeka"
+
+#: ../../configurations.rst:49
+msgid "Add a mapping"
+msgstr "Ajouter une correspondance"
+
+#: ../../configurations.rst:51
+msgid ""
+"To add a new mapping, select \"XPath mapping\" in the dropdown list and click "
+"on the \"+\" button. The mapping settings will appear in a sidebar."
+msgstr ""
+"Pour ajouter une nouvelle correspondance, sélectionnez \"correspondance "
+"XPath\" dans la liste déroulant et cliquez sur le bouton \"+\". Les paramètres "
+"de correspondance apparaîtront dans une barre latérale."
+
+#: ../../configurations.rst:57
+msgid "A mapping consist of the following fields:"
+msgstr "Une correspondance consiste en les champs suivants:"
+
+#: ../../configurations.rst:59
+msgid "XPath expression"
+msgstr "Expression XPath"
+
+#: ../../configurations.rst:60
+msgid ""
+"A relative XPath 1.0 expression that evaluates to a node or a list of nodes "
+"(XML attributes are nodes too). The context node for this expression will be "
+"the ``<oai:record>`` node. The value imported into Omeka will be the text "
+"content of this node. If several nodes matches the XPath expression, there "
+"will be one value per node."
+msgstr ""
+"Une expression XPath 1.0 relative qui correspond à un nœud ou une liste de "
+"nœuds (les attributs XML sont aussi des nœuds). Le nœud contexte pour cette "
+"expression sera le nœud ``<oai:record>``. La valeur importée dans Omeka sera "
+"le contenu textuel de ce nœud. Si plusieurs nœuds correspondent à l'expression "
+"XPath, il y aura une valeur par nœud."
+
+#: ../../configurations.rst:64
+msgid ""
+"For instance, to get the title of an ``oai_dc`` record, you could write "
+"``oai:metadata/oai_dc:dc/dc:title``, or alternatively ``.//dc:title``."
+msgstr ""
+"Par exemple, pour obtenir le titre d'une notice ``oai_dc``, vous pouvez écrire "
+"``oai:metadata/oai_dc:dc/dc:title``, ou alternativement ``.//dc:title``."
+
+#: ../../configurations.rst:67
+msgid "Property"
+msgstr "Propriété"
+
+#: ../../configurations.rst:68
+msgid "The Omeka property where the value will be stored"
+msgstr "La propriété Omeka où sera stockée la valeur"
+
+#: ../../configurations.rst:70
+msgid "Type"
+msgstr "Type"
+
+#: ../../configurations.rst:71
+msgid "The type of value. Can be \"Text\" or \"URI\"."
+msgstr "Le type de valeur. Peut être \"Texte\" ou \"URI\"."
+
+#: ../../configurations.rst:73
+msgid "Replacements"
+msgstr "Remplacements"
+
+#: ../../configurations.rst:74
+msgid ""
+"Optional text replacements to perform. One replacement per line. Each line "
+"must be in the format: ``old value = new value``. Replacement is done only if "
+"the value matches exactly."
+msgstr ""
+"Remplacements de texte éventuels à effectuer. Un remplacement par ligne. "
+"Chaque ligne doit être au format: ``ancienne valeur = nouvelle valeur``. Le "
+"remplacement est fait uniquement si la valeur correspond exactement."
+
+#: ../../configurations.rst:77
+msgid "For instance::"
+msgstr "Par exemple::"
+
+#: ../../configurations.rst:82
+msgid ""
+"Once the mapping is done, remember to click on the \"Set mapping\" button, "
+"otherwise the mapping's settings will be lost."
+msgstr ""
+"Une fois la correspondance faite, n'oubliez pas de cliquer sur le bouton "
+"\"Définir correspondance\", sinon les paramètres de la correspondance seront "
+"perdus."
+
+#: ../../configurations.rst:84
+msgid "You can configure as many mappings as you need."
+msgstr "Vous pouvez configurer autant de correspondances que vous voulez."
+
+#: ../../configurations.rst:90
+msgid "Once done, click on the \"Save changes\" button."
+msgstr ""
+"Quand vous avez terminé, cliquez sur le bouton \"Enregistrer les changements\"."
+
+#: ../../configurations.rst:94
+msgid ""
+"From the \"Configurations\" page, you can click on a configuration name to see "
+"the full configuration details on a single page."
+msgstr ""
+"Depuis la page \"Configurations\", vous pouvez cliquer sur le nom d'une "
+"configuration pour voir les détails complets de la configuration sur une seule "
+"page."

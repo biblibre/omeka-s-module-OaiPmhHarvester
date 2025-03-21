@@ -1,0 +1,149 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, BibLibre
+# This file is distributed under the same license as the OAI-PMH Harvester
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: OAI-PMH Harvester\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-21 13:41+0100\n"
+"PO-Revision-Date: 2025-03-21 14:01+0100\n"
+"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>\n"
+"Language-Team: fr <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Generated-By: Babel 2.17.0\n"
+"X-Generator: Poedit 3.5\n"
+
+#: ../../sources.rst:2
+msgid "Sources"
+msgstr "Sources"
+
+#: ../../sources.rst:4
+msgid ""
+"Sources allow to save information about OAI-PMH repositories to make future "
+"harvests of the same repository easier. Sources consist of:"
+msgstr ""
+"Les sources permettent de sauvegarder des informations sur des dépôts OAI-"
+"PMH afin de rendre plus faciles les futures moissons. Les sources consistent "
+"en:"
+
+#: ../../sources.rst:7
+msgid "A name,"
+msgstr "Un nom,"
+
+#: ../../sources.rst:8
+msgid "An OAI-PMH repository base URL,"
+msgstr "L'URL de base d'un dépôt OAI-PMH,"
+
+#: ../../sources.rst:9
+msgid "A list of sets (or none, to harvest the whole repository),"
+msgstr "Une liste de lots (ou aucun, pour moissonner tout le dépôt),"
+
+#: ../../sources.rst:10
+msgid "A :doc:`configuration <configurations>`."
+msgstr "Une :doc:`configuration <configurations>`."
+
+#: ../../sources.rst:14
+msgid "Add a new source"
+msgstr "Ajouter une nouvelle source"
+
+#: ../../sources.rst:16
+msgid ""
+"To create a new source, first go to the sources page (accessible from the "
+"administration menu)."
+msgstr ""
+"Pour créer une nouvelle source, rendez-vous d'abord sur la page des sources "
+"(accessible depuis le menu d'administration)."
+
+#: ../../sources.rst:20
+msgid "Then click on the \"Add new source\" button."
+msgstr "Puis cliquez sur le bouton \"Ajouter une nouvelle source\"."
+
+#: ../../sources.rst:24
+msgid ""
+"Enter the OAI-PMH repository base URL and select a configuration. If you are "
+"not sure about the configuration, choose ``oai_dc``. You can change the "
+"configuration later if needed."
+msgstr ""
+"Saisissez l'URL de base du dépôt OAI-PMH et sélectionnez une configuration. "
+"Si vous n'êtes pas sûrs pour la configuration, choisissez ``oai_dc``. Vous "
+"pourrez changer la configuration plus tard si besoin."
+
+#: ../../sources.rst:27
+msgid "Then click on the \"Add\" button."
+msgstr "Puis cliquez sur le bouton \"Ajouter\"."
+
+#: ../../sources.rst:31
+msgid ""
+"On the \"Edit source\" page, you can change the source's name (which has "
+"been automatically set to the repository name) and the metadata prefix."
+msgstr ""
+"Sur la page \"Modifier la source\", vous pouvez modifier le nom de la source "
+"(qui a été automatiquement définie avec le nom du dépôt) et le préfixe de "
+"métadonnée."
+
+#: ../../sources.rst:34
+msgid ""
+"You can also list all available sets and select the ones you want to "
+"harvest. You can leave the \"Sets\" field empty if you want to harvest the "
+"whole repository."
+msgstr ""
+"Vous pouvez également lister tous les lots disponibles et sélectionner ceux "
+"que vous souhaitez moissonner. Vous pouvez laisser le champ \"Lots\" vide si "
+"vous voulez moissonner tout le dépôt."
+
+#: ../../sources.rst:39
+msgid "Once you are done, click on the \"Save changes\" button."
+msgstr ""
+"Une fois que vous avez terminé, cliquez sur le bouton \"Sauvegarder les "
+"changements\"."
+
+#: ../../sources.rst:44
+msgid "Harvest a source"
+msgstr "Moissonner une source"
+
+#: ../../sources.rst:46
+msgid ""
+"From the sources page, you can start the harvest by clicking on the seedling "
+"icon."
+msgstr ""
+"Depuis la page des sources, vous pouvez lancer le moissonnage en clique sur "
+"l'icône de plant."
+
+#: ../../sources.rst:50
+msgid "Fill the form if needed, then click on the \"Start harvest\" button."
+msgstr ""
+"Remplissez le formulaire si besoin, puis cliquez sur le bouton \"Démarrer la "
+"moisson\"."
+
+#: ../../sources.rst:54
+msgid ""
+"The harvest is now being done in a background job. When the job is finished, "
+"you can get the list of harvested items by clicking on the \"three dots\" "
+"icon, and then on the number under the \"Items\" section, in the sidebar."
+msgstr ""
+"La moisson est en train d'être faite en tâche de fond. Quand la tâche sera "
+"finie, vous pourrez avoir la liste des contenus moissonnés en cliquant "
+"l'icône \"trois points\", puis sur le nombre sous la section \"Contenus\", "
+"dans la barre latérale."
+
+#: ../../sources.rst:61
+msgid "You can refine your search by clicking on \"Advanced search\" as usual."
+msgstr ""
+"Vous pouvez affiner la recherche en clique sur \"Recherche avancée\" comme "
+"d'habitude."
+
+#: ../../sources.rst:65
+msgid ""
+"To configure how items are created, see the next "
+"section: :doc:`configurations`."
+msgstr ""
+"Pour configurer la manière selon laquelle les contenus sont créés, lisez la "
+"section suivante: :doc:`configurations`."

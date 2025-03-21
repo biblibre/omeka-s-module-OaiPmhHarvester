@@ -1,0 +1,40 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, BibLibre
+# This file is distributed under the same license as the OAI-PMH Harvester
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: OAI-PMH Harvester\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-21 13:41+0100\n"
+"PO-Revision-Date: 2025-03-21 13:44+0100\n"
+"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>\n"
+"Language-Team: fr <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Generated-By: Babel 2.17.0\n"
+"X-Generator: Poedit 3.5\n"
+
+#: ../../index.rst:8
+msgid "User manual"
+msgstr "Manuel utilisateur"
+
+#: ../../index.rst:2
+msgid "OAI-PMH Harvester documentation"
+msgstr "Documentation de OAI-PMH Harvester"
+
+#: ../../index.rst:4
+msgid ""
+"`OAI-PMH Harvester <https://github.com/biblibre/omeka-s-module-"
+"OaiPmhHarvester>`_ is a module for Omeka S that allows to import records "
+"from OAI-PMH repositories."
+msgstr ""
+"`OAI-PMH Harvester <https://github.com/biblibre/omeka-s-module-"
+"OaiPmhHarvester>`_ est un module pour Omeka S qui permet d'importer des "
+"contenus depuis des dépôts OAI-PMH."
