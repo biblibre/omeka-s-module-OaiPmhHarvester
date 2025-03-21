@@ -1,0 +1,183 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurations &mdash; OAI-PMH Harvester  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e9c544c0" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Sources" href="sources.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAI-PMH Harvester
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configurations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#add-a-new-configuration">Add a new configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#add-a-mapping">Add a mapping</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAI-PMH Harvester</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configurations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configurations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configurations">
+<h1>Configurations<a class="headerlink" href="#configurations" title="Link to this heading"></a></h1>
+<p>Configurations are where various settings (including mappings) can be stored and shared among multiple sources.</p>
+<p>Configurations consist of:</p>
+<ul class="simple">
+<li><p>A name,</p></li>
+<li><p>A converter, which is the component responsible for converting an OAI-PMH record into data suitable for Omeka,</p></li>
+<li><p>A list of settings that depends on the selected converter (if the converter is configurable).</p></li>
+</ul>
+<p>Configurations can be duplicated so existing configurations can be used as a starting point for new configurations.</p>
+<p>By default there are 3 non-configurable converters that use the same mappings as one-off harvests: oai_dc, oai_dcterms
+and mets.
+There is also one configurable converter, “XPath converter”, that allows users to specify their own mappings using XPath
+expressions.</p>
+<p>Other Omeka modules may provide additional converters.</p>
+<section id="add-a-new-configuration">
+<h2>Add a new configuration<a class="headerlink" href="#add-a-new-configuration" title="Link to this heading"></a></h2>
+<p>To create a new configuration, go to the “Configurations” page (accessible from the administration menu).</p>
+<img alt="_images/configuration-browse.png" src="_images/configuration-browse.png" />
+<p>Then click on the “Add new configuration” button.</p>
+<img alt="_images/configuration-add-form.png" src="_images/configuration-add-form.png" />
+<p>Enter a name for the new configuration, choose the XPath converter and then click on the “Add” button.</p>
+<img alt="_images/configuration-edit-form-empty.png" src="_images/configuration-edit-form-empty.png" />
+<p>Then you will have two important fields to set:</p>
+<dl>
+<dt>XML namespaces</dt><dd><p>Namespaces used by your XPath expressions must be registered here. The only exception is the <cite>oai</cite> namespace which
+is always registered.</p>
+<p>There must be only one namespace per line, in the format: <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span> <span class="pre">=</span> <span class="pre">&lt;uri&gt;</span></code>, for instance <code class="docutils literal notranslate"><span class="pre">oai_dc</span> <span class="pre">=</span>
+<span class="pre">http://www.openarchives.org/OAI/2.0/oai_dc/</span></code>.</p>
+</dd>
+<dt>Mappings</dt><dd><p>This is where you define how OAI records will be converted to Omeka items</p>
+</dd>
+</dl>
+<section id="add-a-mapping">
+<h3>Add a mapping<a class="headerlink" href="#add-a-mapping" title="Link to this heading"></a></h3>
+<p>To add a new mapping, select “XPath mapping” in the dropdown list and click on the “+” button. The mapping settings will
+appear in a sidebar.</p>
+<img alt="_images/configuration-edit-form-sidebar.png" src="_images/configuration-edit-form-sidebar.png" />
+<p>A mapping consist of the following fields:</p>
+<dl>
+<dt>XPath expression</dt><dd><p>A relative XPath 1.0 expression that evaluates to a node or a list of nodes (XML attributes are nodes too). The
+context node for this expression will be the <code class="docutils literal notranslate"><span class="pre">&lt;oai:record&gt;</span></code> node. The value imported into Omeka will be the text
+content of this node. If several nodes matches the XPath expression, there will be one value per node.</p>
+<p>For instance, to get the title of an <code class="docutils literal notranslate"><span class="pre">oai_dc</span></code> record, you could write <code class="docutils literal notranslate"><span class="pre">oai:metadata/oai_dc:dc/dc:title</span></code>, or
+alternatively <code class="docutils literal notranslate"><span class="pre">.//dc:title</span></code>.</p>
+</dd>
+<dt>Property</dt><dd><p>The Omeka property where the value will be stored</p>
+</dd>
+<dt>Type</dt><dd><p>The type of value. Can be “Text” or “URI”.</p>
+</dd>
+<dt>Replacements</dt><dd><p>Optional text replacements to perform. One replacement per line. Each line must be in the format: <code class="docutils literal notranslate"><span class="pre">old</span> <span class="pre">value</span> <span class="pre">=</span> <span class="pre">new</span>
+<span class="pre">value</span></code>. Replacement is done only if the value matches exactly.</p>
+<p>For instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eng</span> <span class="o">=</span> <span class="n">english</span>
+<span class="n">fre</span> <span class="o">=</span> <span class="n">french</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Once the mapping is done, remember to click on the “Set mapping” button, otherwise the mapping’s settings will be lost.</p>
+<p>You can configure as many mappings as you need.</p>
+<img alt="_images/configuration-edit-form-sidebar-language.png" src="_images/configuration-edit-form-sidebar-language.png" />
+<img alt="_images/configuration-edit-form-filled.png" src="_images/configuration-edit-form-filled.png" />
+<p>Once done, click on the “Save changes” button.</p>
+<img alt="_images/configuration-browse-after-creation.png" src="_images/configuration-browse-after-creation.png" />
+<p>From the “Configurations” page, you can click on a configuration name to see the full configuration details on a single
+page.</p>
+<img alt="_images/configuration-show.png" src="_images/configuration-show.png" />
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sources.html" class="btn btn-neutral float-left" title="Sources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, BibLibre.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

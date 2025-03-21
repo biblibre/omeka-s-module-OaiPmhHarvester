@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurations &mdash; Documentation OAI-PMH Harvester </title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e9c544c0" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d1a510d7"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=e6b791cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="prev" title="Sources" href="sources.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OAI-PMH Harvester
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Manuel utilisateur</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configurations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#add-a-new-configuration">Ajouter une nouvelle configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#add-a-mapping">Ajouter une correspondance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OAI-PMH Harvester</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configurations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configurations.rst.txt" rel="nofollow"> Afficher la source de la page</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configurations">
+<h1>Configurations<a class="headerlink" href="#configurations" title="Lien vers cette rubrique"></a></h1>
+<p>Les configurations sont l’endroit où des paramètres variés peuvent être stockés et partagés par plusieurs sources.</p>
+<p>Les configurations consistent en:</p>
+<ul class="simple">
+<li><p>Un nom,</p></li>
+<li><p>Un convertisseur, qui est le composant responsable de convertir une notice OAI-PMH en données adaptées à Omeka,</p></li>
+<li><p>Une liste de paramètres qui dépend du convertisseur sélectionné (si le convertisseur est configurable).</p></li>
+</ul>
+<p>Les configurations peuvent être dupliquées, ainsi les configurations existantes peuvent servir de point de départ pour des nouvelles configurations.</p>
+<p>Par défaut il y a 3 convertisseurs non configurables qui utilisent les mêmes correspondances que les moissons ponctuelles: oai_dc, oai_dcterms et mets. Il y a aussi un convertisseur configurable, « Convertisseur XPath », qui permet aux utilisateurs de spécifier leurs propres correspondances en utilisant des expressions XPath.</p>
+<p>D’autres modules Omeka peuvent fournir des convertisseurs additionnels.</p>
+<section id="add-a-new-configuration">
+<h2>Ajouter une nouvelle configuration<a class="headerlink" href="#add-a-new-configuration" title="Lien vers cette rubrique"></a></h2>
+<p>Pour créer une nouvelle configuration, rendez-vous sur la page « Configurations » (accessible depuis le menu d’administration).</p>
+<img alt="_images/configuration-browse.png" src="_images/configuration-browse.png" />
+<p>Puis cliquez sur le bouton « Ajouter une nouvelle configuration ».</p>
+<img alt="_images/configuration-add-form.png" src="_images/configuration-add-form.png" />
+<p>Saisissez un nom pour la nouvelle configuration, sélectionnez le convertisseur XPath puis cliquez sur le bouton « Ajouter ».</p>
+<img alt="_images/configuration-edit-form-empty.png" src="_images/configuration-edit-form-empty.png" />
+<p>Ensuite vous aurez deux champs importants à remplir:</p>
+<dl>
+<dt>Espaces de noms XML</dt><dd><p>Les espaces de noms utilisés par vos expressions XPath doivent être enregistrés ici. La seule exception est l’espace de noms <code class="docutils literal notranslate"><span class="pre">oai</span></code> qui est toujours enregistré.</p>
+<p>Il doit y avoir un seul espace de noms par ligne, au format: <code class="docutils literal notranslate"><span class="pre">&lt;préfixe&gt;</span> <span class="pre">=</span> <span class="pre">&lt;uri&gt;</span></code>, par exemple <code class="docutils literal notranslate"><span class="pre">oai_dc</span> <span class="pre">=</span> <span class="pre">http://www.openarchives.org/OAI/2.0/oai_dc/</span></code>.</p>
+</dd>
+<dt>Correspondances</dt><dd><p>C’est ici que vous définissez comment les notices OAI seront converties en contenus Omeka</p>
+</dd>
+</dl>
+<section id="add-a-mapping">
+<h3>Ajouter une correspondance<a class="headerlink" href="#add-a-mapping" title="Lien vers cette rubrique"></a></h3>
+<p>Pour ajouter une nouvelle correspondance, sélectionnez « correspondance XPath » dans la liste déroulant et cliquez sur le bouton « + ». Les paramètres de correspondance apparaîtront dans une barre latérale.</p>
+<img alt="_images/configuration-edit-form-sidebar.png" src="_images/configuration-edit-form-sidebar.png" />
+<p>Une correspondance consiste en les champs suivants:</p>
+<dl>
+<dt>Expression XPath</dt><dd><p>Une expression XPath 1.0 relative qui correspond à un nœud ou une liste de nœuds (les attributs XML sont aussi des nœuds). Le nœud contexte pour cette expression sera le nœud <code class="docutils literal notranslate"><span class="pre">&lt;oai:record&gt;</span></code>. La valeur importée dans Omeka sera le contenu textuel de ce nœud. Si plusieurs nœuds correspondent à l’expression XPath, il y aura une valeur par nœud.</p>
+<p>Par exemple, pour obtenir le titre d’une notice <code class="docutils literal notranslate"><span class="pre">oai_dc</span></code>, vous pouvez écrire <code class="docutils literal notranslate"><span class="pre">oai:metadata/oai_dc:dc/dc:title</span></code>, ou alternativement <code class="docutils literal notranslate"><span class="pre">.//dc:title</span></code>.</p>
+</dd>
+<dt>Propriété</dt><dd><p>La propriété Omeka où sera stockée la valeur</p>
+</dd>
+<dt>Type</dt><dd><p>Le type de valeur. Peut être « Texte » ou « URI ».</p>
+</dd>
+<dt>Remplacements</dt><dd><p>Remplacements de texte éventuels à effectuer. Un remplacement par ligne. Chaque ligne doit être au format: <code class="docutils literal notranslate"><span class="pre">ancienne</span> <span class="pre">valeur</span> <span class="pre">=</span> <span class="pre">nouvelle</span> <span class="pre">valeur</span></code>. Le remplacement est fait uniquement si la valeur correspond exactement.</p>
+<p>Par exemple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eng</span> <span class="o">=</span> <span class="n">english</span>
+<span class="n">fre</span> <span class="o">=</span> <span class="n">french</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Une fois la correspondance faite, n’oubliez pas de cliquer sur le bouton « Définir correspondance », sinon les paramètres de la correspondance seront perdus.</p>
+<p>Vous pouvez configurer autant de correspondances que vous voulez.</p>
+<img alt="_images/configuration-edit-form-sidebar-language.png" src="_images/configuration-edit-form-sidebar-language.png" />
+<img alt="_images/configuration-edit-form-filled.png" src="_images/configuration-edit-form-filled.png" />
+<p>Quand vous avez terminé, cliquez sur le bouton « Enregistrer les changements ».</p>
+<img alt="_images/configuration-browse-after-creation.png" src="_images/configuration-browse-after-creation.png" />
+<p>Depuis la page « Configurations », vous pouvez cliquer sur le nom d’une configuration pour voir les détails complets de la configuration sur une seule page.</p>
+<img alt="_images/configuration-show.png" src="_images/configuration-show.png" />
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pied de page">
+        <a href="sources.html" class="btn btn-neutral float-left" title="Sources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Précédent</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2025, BibLibre.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
