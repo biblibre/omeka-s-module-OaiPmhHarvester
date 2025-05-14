@@ -273,7 +273,7 @@ if (version_compare($oldVersion, '3.4.18', '<')) {
     $messenger->addSuccess($message);
 }
 
-if (version_compare($oldVersion, '3.4.19', '<')) {
+if (version_compare($oldVersion, '3.4.19-biblibre.1', '<')) {
     $sql = <<<'SQL'
         CREATE TABLE oaipmhharvester_configuration (
             id INT AUTO_INCREMENT NOT NULL,
