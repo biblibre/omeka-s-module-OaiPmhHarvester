@@ -34,3 +34,12 @@ if (!$ids) {
         <?php endforeach; ?>
     </div>
 </div>
+
+<script>
+    $(document).on('submit', '#advanced-search', function(e) {
+        const select = this.elements.namedItem('oaipmhharvester_source_id[]');
+        if (select && select.value === '') {
+            select.name = '';
+        }
+    });
+</script>
