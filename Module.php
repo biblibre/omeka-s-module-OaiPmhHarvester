@@ -208,11 +208,15 @@ class Module extends AbstractModule
 
     public function onItemViewAdvancedSearch(Event $event)
     {
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+
         $partials = $event->getParam('partials');
 
         $partials[] = 'oai-pmh-harvester/common/advanced-search/source';
 
-        $event->setParam('partials', $partials);
+       if($acl->userIsAllowed()){
+            $event->setParam('partials', $partials);
+        };
     }
 
     public function onItemViewSearchFilters(Event $event)
@@ -227,11 +231,14 @@ class Module extends AbstractModule
         }
         $ids = array_filter($ids);
         if ($ids) {
-            $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-            $values = [];
-            $sources = $api->search('oaipmhharvester_sources', ['id' => $ids])->getContent();
-            $names = array_map(fn($source) => $source->name(), $sources);
-            $filters[$view->translate('OAI-PMH Source')] = $names;
+            try {
+                $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+                $values = [];
+                $sources = $api->search('oaipmhharvester_sources', ['id' => $ids])->getContent();
+                $names = array_map(fn($source) => $source->name(), $sources);
+                $filters[$view->translate('OAI-PMH Source')] = $names;
+            } catch (\Exception $e) {
+            }
         }
 
         $event->setParam('filters', $filters);
@@ -242,9 +249,13 @@ class Module extends AbstractModule
         $view = $event->getTarget();
         $item = $event->getParam('entity');
 
-        $sourceRecord = $view->api()->searchOne('oaipmhharvester_source_records', ['item_id' => $item->id()])->getContent();
-        if ($sourceRecord) {
-            echo $view->partial('oai-pmh-harvester/common/item-details', ['item' => $item, 'sourceRecord' => $sourceRecord]);
+        try {
+            $sourceRecord = $view->api()->searchOne('oaipmhharvester_source_records', ['item_id' => $item->id()])->getContent();
+
+            if ($sourceRecord) {
+                echo $view->partial('oai-pmh-harvester/common/item-details', ['item' => $item, 'sourceRecord' => $sourceRecord]);
+            }
+        } catch (\Exception $e) {
         }
     }
 
@@ -253,9 +264,13 @@ class Module extends AbstractModule
         $view = $event->getTarget();
         $item = $view->item;
 
-        $sourceRecord = $view->api()->searchOne('oaipmhharvester_source_records', ['item_id' => $item->id()])->getContent();
-        if ($sourceRecord) {
-            echo $view->partial('oai-pmh-harvester/common/item-details', ['item' => $item, 'sourceRecord' => $sourceRecord]);
+        try {
+            $sourceRecord = $view->api()->searchOne('oaipmhharvester_source_records', ['item_id' => $item->id()])->getContent();
+
+            if ($sourceRecord) {
+                echo $view->partial('oai-pmh-harvester/common/item-details', ['item' => $item, 'sourceRecord' => $sourceRecord]);
+            }
+        } catch (\Exception $e) {
         }
     }
 
@@ -271,12 +286,16 @@ class Module extends AbstractModule
         }
         $ids = array_filter($ids);
         if ($ids) {
-            $subQb = $adapter->getEntityManager()->createQueryBuilder();
-            $subQb->select('r')
-                  ->from('OaiPmhHarvester\Entity\SourceRecord', 'r')
-                  ->where($subQb->expr()->in('r.source', $ids))
-                  ->andWhere('r.item = omeka_root');
-            $qb->andWhere($qb->expr()->exists($subQb->getDQL()));
+            try {
+                $subQb = $adapter->getEntityManager()->createQueryBuilder();
+                $subQb->select('r')
+                    ->from('OaiPmhHarvester\Entity\SourceRecord', 'r')
+                    ->where($subQb->expr()->in('r.source', $ids))
+                    ->andWhere('r.item = omeka_root');
+
+                $qb->andWhere($qb->expr()->exists($subQb->getDQL()));
+            } catch (\Exception $e) {
+            }
         }
     }
 
