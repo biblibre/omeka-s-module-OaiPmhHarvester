@@ -5,6 +5,7 @@ namespace OaiPmhHarvester;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\MvcEvent;
 use Omeka\Module\AbstractModule;
 use Omeka\Stdlib\Message;
 
@@ -13,6 +14,12 @@ class Module extends AbstractModule
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+     public function onBootstrap(MvcEvent $event)
+    {
+        parent::onBootstrap($event);
+        $this->addAclRules();
     }
 
     public function install(ServiceLocatorInterface $services): void
@@ -157,6 +164,23 @@ class Module extends AbstractModule
             'api.search.query',
             [$this, 'onJobApiSearchQuery']
         );
+    }
+
+    protected function addAclRules(): void
+    {
+        /** @var \Omeka\Permissions\Acl $acl */
+        $services = $this->getServiceLocator();
+        $acl = $services->get('Omeka\Acl');
+
+        $roles = $acl->getRoles();
+        $acl
+            ->allow(
+                $roles,
+                [
+                    \OaiPmhHarvester\Api\Adapter\SourceRecordAdapter::class,
+                ],
+                ['search', 'read']
+            );
     }
 
     /**
