@@ -214,7 +214,7 @@ class Module extends AbstractModule
 
         $partials[] = 'oai-pmh-harvester/common/advanced-search/source';
 
-       if($acl->userIsAllowed()){
+        if ($acl->userIsAllowed('OaiPmhHarvester\Entity\Source', 'read')) {
             $event->setParam('partials', $partials);
         };
     }
@@ -286,16 +286,13 @@ class Module extends AbstractModule
         }
         $ids = array_filter($ids);
         if ($ids) {
-            try {
-                $subQb = $adapter->getEntityManager()->createQueryBuilder();
-                $subQb->select('r')
-                    ->from('OaiPmhHarvester\Entity\SourceRecord', 'r')
-                    ->where($subQb->expr()->in('r.source', $ids))
-                    ->andWhere('r.item = omeka_root');
+            $subQb = $adapter->getEntityManager()->createQueryBuilder();
+            $subQb->select('r')
+                ->from('OaiPmhHarvester\Entity\SourceRecord', 'r')
+                ->where($subQb->expr()->in('r.source', $ids))
+                ->andWhere('r.item = omeka_root');
 
-                $qb->andWhere($qb->expr()->exists($subQb->getDQL()));
-            } catch (\Exception $e) {
-            }
+            $qb->andWhere($qb->expr()->exists($subQb->getDQL()));
         }
     }
 
