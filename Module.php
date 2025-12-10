@@ -279,20 +279,23 @@ class Module extends AbstractModule
         $adapter = $event->getTarget();
         $qb = $event->getParam('queryBuilder');
         $request = $event->getParam('request');
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
 
-        $ids = $request->getValue('oaipmhharvester_source_id', []);
-        if (!is_array($ids)) {
-            $ids = [$ids];
-        }
-        $ids = array_filter($ids);
-        if ($ids) {
-            $subQb = $adapter->getEntityManager()->createQueryBuilder();
-            $subQb->select('r')
-                ->from('OaiPmhHarvester\Entity\SourceRecord', 'r')
-                ->where($subQb->expr()->in('r.source', $ids))
-                ->andWhere('r.item = omeka_root');
+        if ($acl->userIsAllowed('OaiPmhHarvester\Entity\Source', 'read')) {
+            $ids = $request->getValue('oaipmhharvester_source_id', []);
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+            $ids = array_filter($ids);
+            if ($ids) {
+                $subQb = $adapter->getEntityManager()->createQueryBuilder();
+                $subQb->select('r')
+                    ->from('OaiPmhHarvester\Entity\SourceRecord', 'r')
+                    ->where($subQb->expr()->in('r.source', $ids))
+                    ->andWhere('r.item = omeka_root');
 
-            $qb->andWhere($qb->expr()->exists($subQb->getDQL()));
+                $qb->andWhere($qb->expr()->exists($subQb->getDQL()));
+            }
         }
     }
 
