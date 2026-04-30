@@ -109,5 +109,9 @@ class SourceAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:sets')) {
             $entity->setSets($request->getValue('o:sets', []));
         }
+
+        if ($this->shouldHydrate($request, 'o:update_mode')) {
+            $entity->setUpdateMode($request->getValue('o:update_mode', ''));
+        }
     }
 }

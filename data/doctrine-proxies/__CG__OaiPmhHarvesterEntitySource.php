@@ -67,10 +67,10 @@ class Source extends \OaiPmhHarvester\Entity\Source implements \Doctrine\ORM\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'name', 'baseUrl', 'metadataPrefix', 'configuration', 'sets', 'records', 'jobs'];
+            return ['__isInitialized__', 'id', 'name', 'baseUrl', 'metadataPrefix', 'configuration', 'sets', 'updateMode', 'records', 'jobs'];
         }
 
-        return ['__isInitialized__', 'id', 'name', 'baseUrl', 'metadataPrefix', 'configuration', 'sets', 'records', 'jobs'];
+        return ['__isInitialized__', 'id', 'name', 'baseUrl', 'metadataPrefix', 'configuration', 'sets', 'updateMode', 'records', 'jobs'];
     }
 
     /**
@@ -133,7 +133,7 @@ class Source extends \OaiPmhHarvester\Entity\Source implements \Doctrine\ORM\Pro
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setInitializer(\Closure $initializer = null): void
+    public function __setInitializer(?\Closure $initializer = null): void
     {
         $this->__initializer__ = $initializer;
     }
@@ -151,7 +151,7 @@ class Source extends \OaiPmhHarvester\Entity\Source implements \Doctrine\ORM\Pro
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
      */
-    public function __setCloner(\Closure $cloner = null): void
+    public function __setCloner(?\Closure $cloner = null): void
     {
         $this->__cloner__ = $cloner;
     }
@@ -300,6 +300,28 @@ class Source extends \OaiPmhHarvester\Entity\Source implements \Doctrine\ORM\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSets', [$sets]);
 
         return parent::setSets($sets);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUpdateMode(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUpdateMode', []);
+
+        return parent::getUpdateMode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUpdateMode(string $updateMode): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdateMode', [$updateMode]);
+
+        parent::setUpdateMode($updateMode);
     }
 
     /**

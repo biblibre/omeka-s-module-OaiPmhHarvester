@@ -59,6 +59,7 @@ CREATE TABLE oaipmhharvester_source (
     base_url VARCHAR(255) NOT NULL,
     metadata_prefix VARCHAR(255) NOT NULL,
     sets LONGTEXT NOT NULL COMMENT '(DC2Type:json)',
+    update_mode VARCHAR(255) DEFAULT '' NOT NULL,
     INDEX IDX_AF32171573F32DD8 (configuration_id),
     PRIMARY KEY(id)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;

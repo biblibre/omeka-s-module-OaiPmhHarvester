@@ -26,6 +26,18 @@ $translate = $this->plugin('translate');
     </div>
 <?php endif; ?>
 
+<?php $updateMode = $resource->updateMode(); ?>
+<div class="meta-group">
+    <h4><?php echo $this->translate('Update mode'); ?></h4>
+    <?php if ($updateMode === OaiPmhHarvester\Job\HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA): ?>
+        <div class="value"><?= $this->escapeHtml($this->translate('Replace all metadata')) ?></div>
+    <?php elseif ($updateMode === OaiPmhHarvester\Job\HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK): ?>
+        <div class="value"><?= $this->escapeHtml($this->translate('Replace all metadata except ARK identifiers')) ?></div>
+    <?php else: ?>
+        <div class="value"><?= $this->escapeHtml($this->translate('No update')) ?></div>
+    <?php endif; ?>
+</div>
+
 <?php $itemCount = $this->api()->search('items', ['oaipmhharvester_source_id' => $resource->id(), 'limit' => 0])->getTotalResults() ?>
 <div class="meta-group">
     <h4><?php echo $translate('Items'); ?></h4>

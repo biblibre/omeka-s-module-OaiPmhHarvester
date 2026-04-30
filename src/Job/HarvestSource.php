@@ -11,6 +11,9 @@ use Omeka\Job\AbstractJob;
 
 class HarvestSource extends AbstractJob
 {
+    const UPDATE_MODE_REPLACE_ALL_METADATA = 'replace_all_metadata';
+    const UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK = 'replace_all_metadata_but_ark';
+
     protected int $importedRecords = 0;
 
     public function perform()
@@ -94,6 +97,19 @@ class HarvestSource extends AbstractJob
         $configuration = $source->configuration();
         $converter = $configuration->converter();
 
+        $updateMode = $source->updateMode();
+        $updateModes = [
+            self::UPDATE_MODE_REPLACE_ALL_METADATA,
+            self::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK,
+        ];
+        if ($updateMode !== '' && !in_array($updateMode, $updateModes)) {
+            $logger->warn(sprintf('Unknown update mode: "%s". Disabling update', $updateMode));
+            $updateMode = '';
+        }
+
+        $properties = $api->search('properties')->getContent();
+        $terms = array_map(fn($property) => $property->term(), $properties);
+
         $from = $this->getArg('from');
         $until = $this->getArg('until');
 
@@ -143,38 +159,86 @@ class HarvestSource extends AbstractJob
                     ['source_id' => $source->id(), 'identifier' => $identifier],
                     ['returnScalar' => 'item']
                 );
-                if ($response->getTotalResults() > 0) {
-                    $itemIds = $response->getContent();
+                $itemIds = $response->getContent();
+
+                if ($updateMode === '' && $response->getTotalResults() > 0) {
                     $logger->info(sprintf('Skipping record %s because it already exists (items: %s)', $identifier, implode(',', $itemIds)));
                     continue;
                 }
 
+                if ($updateMode !== '' && $response->getTotalResults() > 1) {
+                    $logger->warn(sprintf('Record %s corresponds to several items. Update is not possible (items: %s)', $identifier, implode(',', $itemIds)));
+                    continue;
+                }
+
+
                 $generator = $converter->convert($record, $configuration->settings());
                 while ($generator->valid()) {
                     $itemData = $generator->current();
-
                     if (!is_array($itemData)) {
                         $logger->err('Converter did not return an array');
                         $generator->send(null);
                         continue;
                     }
 
-                    if (!isset($itemData['o:is_public'])) {
-                        $itemData['o:is_public'] = !$settings->get('default_to_private', false);
+                    $itemId = array_shift($itemIds);
+                    if ($itemId) {
+                        $item = $api->read('items', $itemId)->getContent();
+
+                        if ($updateMode === self::UPDATE_MODE_REPLACE_ALL_METADATA) {
+                            $partialItemData = array_filter($itemData, fn($key) => in_array($key, $terms), ARRAY_FILTER_USE_KEY);
+                            $api->update('items', $itemId, $partialItemData, [], ['isPartial' => true]);
+
+                            $logger->info(sprintf('Imported record %s (updated item #%d)', $identifier, $item->id()));
+                        } elseif ($updateMode === self::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK) {
+                            $partialItemData = array_filter($itemData, fn($key) => in_array($key, $terms), ARRAY_FILTER_USE_KEY);
+
+                            $identifierValues = $item->value('dcterms:identifier', ['type' => 'literal', 'all' => true]);
+                            $arkIdentifierValues = array_filter($identifierValues, fn($v) => str_starts_with($v->value(), 'ark:/'));
+
+                            if ($arkIdentifierValues) {
+                                $arkIdentifierValuesMap = [];
+                                foreach ($arkIdentifierValues as $arkIdentifierValue) {
+                                    $arkIdentifierValuesMap[$arkIdentifierValue->value()] = $arkIdentifierValue;
+                                }
+
+                                // Remove already existing ark identifiers from incoming data
+                                $identifierValuesData = array_filter(
+                                    $partialItemData['dcterms:identifier'] ?? [],
+                                    fn($valueData) => $valueData['type'] !== 'literal' || !array_key_exists($valueData['@value'], $arkIdentifierValuesMap)
+                                );
+
+                                $partialItemData['dcterms:identifier'] = array_merge(
+                                    array_map(fn($value) => json_decode(json_encode($value), true), $arkIdentifierValues),
+                                    $identifierValuesData
+                                );
+                            }
+
+                            $api->update('items', $itemId, $partialItemData, [], ['isPartial' => true]);
+
+                            $logger->info(sprintf('Imported record %s (updated item #%d)', $identifier, $item->id()));
+                        } else {
+                            throw new \Exception(sprintf('Invalid update mode: %s', $updateMode));
+                        }
+                    } else {
+                        if (!isset($itemData['o:is_public'])) {
+                            $itemData['o:is_public'] = !$settings->get('default_to_private', false);
+                        }
+
+                        $response = $api->create('items', $itemData, [], ['continueOnError' => true]);
+                        $item = $response->getContent();
+                        $itemId = $item->id();
+
+                        $sourceRecordData = [
+                            'o:item' => ['o:id' => $itemId],
+                            'o:source' => ['o:id' => $source->id()],
+                            'o:identifier' => $identifier,
+                        ];
+                        $api->create('oaipmhharvester_source_records', $sourceRecordData);
+
+                        $logger->info(sprintf('Imported record %s (created item #%d)', $identifier, $item->id()));
                     }
 
-                    $response = $api->create('items', $itemData, [], ['continueOnError' => true]);
-                    $item = $response->getContent();
-                    $itemId = $item->id();
-
-                    $sourceRecordData = [
-                        'o:item' => ['o:id' => $itemId],
-                        'o:source' => ['o:id' => $source->id()],
-                        'o:identifier' => $identifier,
-                    ];
-                    $api->create('oaipmhharvester_source_records', $sourceRecordData);
-
-                    $logger->info(sprintf('Imported record %s (item #%d)', $identifier, $item->id()));
                     $this->importedRecords++;
 
                     $generator->send($item->id());

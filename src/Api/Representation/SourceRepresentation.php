@@ -16,6 +16,7 @@ class SourceRepresentation extends AbstractEntityRepresentation
             'o:base_url' => $this->baseUrl(),
             'o:metadata_prefix' => $this->metadataPrefix(),
             'o:sets' => $this->sets(),
+            'o:update_mode' => $this->updateMode(),
         ];
     }
 
@@ -56,6 +57,11 @@ class SourceRepresentation extends AbstractEntityRepresentation
     public function sets(): array
     {
         return $this->resource->getSets();
+    }
+
+    public function updateMode(): string
+    {
+        return $this->resource->getUpdateMode();
     }
 
     public function configuration(): ConfigurationRepresentation

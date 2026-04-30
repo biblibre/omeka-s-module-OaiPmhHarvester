@@ -48,6 +48,11 @@ class Source extends AbstractEntity
     protected array $sets = [];
 
     /**
+     * @Column(options={"default":""})
+     */
+    protected string $updateMode = '';
+
+    /**
      * @OneToMany(targetEntity="SourceRecord", mappedBy="source")
      */
     protected Collection $records;
@@ -121,6 +126,16 @@ class Source extends AbstractEntity
     public function setSets(array $sets)
     {
         $this->sets = $sets;
+    }
+
+    public function getUpdateMode(): string
+    {
+        return $this->updateMode;
+    }
+
+    public function setUpdateMode(string $updateMode): void
+    {
+        $this->updateMode = $updateMode;
     }
 
     public function getRecords(): Collection

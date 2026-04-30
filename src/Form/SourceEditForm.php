@@ -7,6 +7,7 @@ use Laminas\Form\Element\Text;
 use Laminas\Form\Element\Url;
 use Laminas\Form\Fieldset;
 use Laminas\Form\Form;
+use OaiPmhHarvester\Job\HarvestSource;
 use Omeka\Api\Manager as ApiManager;
 
 class SourceEditForm extends Form
@@ -90,15 +91,32 @@ class SourceEditForm extends Form
         ]);
 
         $this->add([
-            'name' => 'o:settings',
-            'type' => Fieldset::class,
+            'name' => 'o:update_mode',
+            'type' => 'Laminas\Form\Element\Select',
+            'options' => [
+                'label' => 'Update mode', // @translate
+                'info' => 'How existing items are updated', // @translate
+                'empty_option' => 'No update', // @translate
+                'value_options' => [
+                    HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA => 'Replace all metadata', // @translate
+                    HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK => 'Replace all metadata except ARK identifiers in dcterms:identifier', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'sets',
+                'rows' => '10',
+            ],
         ]);
-        $settingsFieldset = $this->get('o:settings');
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'o:base_url',
             'required' => false,
+        ]);
+
+        $inputFilter->add([
+            'name' => 'o:update_mode',
+            'allow_empty' => true,
         ]);
     }
 

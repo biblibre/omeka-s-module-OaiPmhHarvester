@@ -417,3 +417,11 @@ if (version_compare($oldVersion, '3.4.19-biblibre.1', '<')) {
         ]),
     ]);
 }
+
+if (version_compare($oldVersion, '3.4.19-biblibre.4', '<')) {
+    $sql = <<<'SQL'
+        ALTER TABLE oaipmhharvester_source
+        ADD COLUMN update_mode VARCHAR(255) DEFAULT '' NOT NULL AFTER sets
+    SQL;
+    $connection->executeStatement($sql);
+}
