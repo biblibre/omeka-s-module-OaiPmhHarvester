@@ -1,0 +1,12 @@
+<h2><?= $this->escapeHtml($this->translate('Action settings')) ?></h2>
+
+<dl>
+    <div class="property">
+        <dt><?= $this->escapeHtml($this->translate('Source')) ?></dt>
+        <dd class="value">
+            <?php $source_id = $scheduledAction->setting('source'); ?>
+            <?php $source = $this->api()->read('oaipmhharvester_sources', $source_id)->getContent(); ?>
+            <?= $this->escapeHtml($source->name()) ?>
+        </dd>
+    </div>
+</dl>

@@ -1,5 +1,9 @@
 # Changelog (BibLibre modifications)
 
+## Unreleased
+
+- Add schedulable (Cronical) action to harvest a source
+
 ## [3.4.19-biblibre.6] - 2026-10-02
 
 - Fix french translation of "set"
