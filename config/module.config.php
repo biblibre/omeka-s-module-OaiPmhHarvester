@@ -289,4 +289,9 @@ return [
             'mets' => Service\Converter\HarvesterMapConverterFactory::class,
         ],
     ],
+    'cronical_actions' => [
+        'invokables' => [
+            'OaiPmhHarvester\CronicalAction\HarvestSource' => CronicalAction\HarvestSource::class,
+        ],
+    ],
 ];

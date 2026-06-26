@@ -64,6 +64,7 @@ class Source extends AbstractEntity
      *     joinColumns={@JoinColumn(name="source_id", referencedColumnName="id", onDelete="cascade")},
      *     inverseJoinColumns={@JoinColumn(name="job_id", referencedColumnName="id", unique=true, onDelete="cascade")}
      * )
+     * @OrderBy({"id" = "ASC"})
      */
     protected Collection $jobs;
 
