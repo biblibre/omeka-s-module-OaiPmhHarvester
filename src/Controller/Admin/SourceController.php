@@ -178,6 +178,7 @@ class SourceController extends AbstractActionController
                     'from' => $formData['from'],
                     'until' => $formData['until'],
                     'update_mode' => $formData['update_mode'] ?? '',
+                    'owner_id' => $formData['owner_id'],
                 ];
                 $job = $this->jobDispatcher()->dispatch(HarvestSource::class, $args);
 

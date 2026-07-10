@@ -73,7 +73,8 @@ class HarvestSource extends AbstractJobDispatchAction
         }
 
         return [
-            'source_id' => $scheduledActionRun->setting('source'),
+            'source_id' => $sourceId,
+            'owner_id' => $scheduledActionRun->setting('owner_id'),
             'from' => $from,
         ];
     }
@@ -120,12 +121,26 @@ class HarvestSource extends AbstractJobDispatchAction
                 'info' => 'If selective harvesting is set to "Harvest records added or modified since <n> days", this parameter controls the number of days.', // @translate
             ],
         ]);
+
+        $form->get('o:settings')->add([
+            'name' => 'owner_id',
+            'type' => 'Omeka\Form\Element\UserSelect',
+            'options' => [
+                'label' => 'Owner', // @translate
+                'info' => 'Owner of resources created. If left empty, the scheduled action owner will be the default owner of resources created.', // @translate
+                'empty_option' => '',
+            ],
+        ]);
     }
 
     public function formAddInputFilters(InputFilterInterface $inputFilter, ScheduledActionRepresentation $scheduledAction): void
     {
         $inputFilter->get('o:settings')->add([
             'name' => 'from',
+            'required' => false,
+        ]);
+        $inputFilter->get('o:settings')->add([
+            'name' => 'owner_id',
             'required' => false,
         ]);
     }
