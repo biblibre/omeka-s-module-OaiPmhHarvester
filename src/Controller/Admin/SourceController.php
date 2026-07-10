@@ -178,6 +178,7 @@ class SourceController extends AbstractActionController
                     'delete_all_items' => $formData['delete_all_items'] ? true : false,
                     'from' => $formData['from'],
                     'until' => $formData['until'],
+                    'owner_id' => $formData['owner_id'],
                 ];
                 $job = $this->jobDispatcher()->dispatch(HarvestSource::class, $args);
 

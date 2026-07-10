@@ -44,5 +44,21 @@ class SourceHarvestForm extends Form
                 'title' => 'YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ', // @translate
             ],
         ]);
+
+        $this->add([
+            'name' => 'owner_id',
+            'type' => 'Omeka\Form\Element\UserSelect',
+            'options' => [
+                'label' => 'Owner', // @translate
+                'info' => 'Owner of resources created. If left empty, you will be the default owner of resources created.', // @translate
+                'empty_option' => '',
+            ],
+        ]);
+
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add([
+            'name' => 'owner_id',
+            'required' => false,
+        ]);
     }
 }

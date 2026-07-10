@@ -112,6 +112,7 @@ class HarvestSource extends AbstractJob
 
         $from = $this->getArg('from');
         $until = $this->getArg('until');
+        $owner_id = $this->getArg('owner_id');
 
         $resumptionToken = null;
         do {
@@ -223,6 +224,11 @@ class HarvestSource extends AbstractJob
                     } else {
                         if (!isset($itemData['o:is_public'])) {
                             $itemData['o:is_public'] = !$settings->get('default_to_private', false);
+                        }
+
+                        if ($owner_id) {
+                            $itemData['o:owner'] ??= [];
+                            $itemData['o:owner']['o:id'] = $owner_id;
                         }
 
                         $response = $api->create('items', $itemData, [], ['continueOnError' => true]);
