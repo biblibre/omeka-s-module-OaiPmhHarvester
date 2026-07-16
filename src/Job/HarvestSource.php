@@ -122,7 +122,11 @@ class HarvestSource extends AbstractJob
             if ($resumptionToken) {
                 $query = ['resumptionToken' => $resumptionToken];
             } else {
-                $query = ['metadataPrefix' => $source->metadataPrefix(), 'from' => $from, 'until' => $until];
+                $query = ['metadataPrefix' => $source->metadataPrefix()];
+                if ($from)
+                    $query['from'] = $from;
+                if ($until)
+                    $query['until'] = $until;
                 if ($set !== null) {
                     $query['set'] = $set;
                 }
