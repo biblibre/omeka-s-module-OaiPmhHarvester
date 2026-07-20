@@ -5,7 +5,6 @@ namespace OaiPmhHarvester\Converter;
 use Generator;
 use OaiPmhHarvester\OaiPmh\OaiRecord;
 use OaiPmhHarvester\OaiPmh\HarvesterMap\HarvesterMapInterface;
-use Omeka\Settings\Settings;
 
 class HarvesterMapConverter implements ConverterInterface
 {
