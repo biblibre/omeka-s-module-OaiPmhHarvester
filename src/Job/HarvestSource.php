@@ -2,10 +2,7 @@
 
 namespace OaiPmhHarvester\Job;
 
-use DateTime;
-use DateTimeZone;
 use OaiPmhHarvester\OaiPmh\OaiRecord;
-use Omeka\Api\Representation\AbstractRepresentation;
 use OaiPmhHarvester\Api\Representation\SourceRepresentation;
 use Omeka\Job\AbstractJob;
 
