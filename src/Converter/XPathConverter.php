@@ -3,6 +3,8 @@
 namespace OaiPmhHarvester\Converter;
 
 use DOMElement;
+use DOMXPath;
+use DOMNodeList;
 use Generator;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilterInterface;
@@ -14,10 +16,11 @@ use OaiPmhHarvester\Form\Element\Fields;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\PropertyRepresentation;
 use Omeka\Form\Element\ArrayTextarea;
+use boolean;
 
 class XPathConverter implements ConfigurableConverterInterface
 {
-    protected $apiManager;
+    protected ApiManager $apiManager;
     protected HelperPluginManager $viewHelperManager;
     protected LoggerInterface $logger;
 
@@ -31,6 +34,32 @@ class XPathConverter implements ConfigurableConverterInterface
     public function getLabel(): string
     {
         return 'XPath converter'; // @translate
+    }
+
+    protected function isValidCustomVocab(string $value, int $vocab_id): bool {
+        $vocab = $this->apiManager->read('custom_vocabs', $vocab_id, [], [])->getContent();
+        $terms = $vocab->terms();
+        $valid = in_array($value, $terms); 
+        if (!$valid) {
+            $this->logger->err(sprintf('Invalid value "%s" for Custom Vocab: %s ', $value, $vocab->label()));
+        }
+        return $valid;
+    }
+
+    /**
+     * This function evaluates an xpath expression correctly and makes the differenciation 
+     * between an eroneous call and an XPath expression returning false.
+     */
+    protected function evalXpath(DOMXPath $xpath, DOMElement $element, string $expr): mixed {
+        libxml_clear_errors();
+        $xpath_result = $xpath->evaluate($expr, $element);
+        $errors = libxml_get_errors();
+        if (!$xpath_result && $errors) {
+            $errors_string = implode('\n\t', array_map(fn($it) => sprintf("Error code %d : %s", $it->code, $it->message), $errors));
+            $this->logger->err(sprintf("Errors while exectuing XPath expression: %s", $errors_string));
+            return null;
+        }
+        return $xpath_result;
     }
 
     /**
@@ -51,62 +80,84 @@ class XPathConverter implements ConfigurableConverterInterface
 
         $mappings = $settings['mappings'] ?? [];
         foreach ($mappings as $mapping) {
+            $type = $mapping['type'] ?? 'literal';
             $property = $this->getPropertyByTerm($mapping['property']);
             if (!$property) {
-                $this->logger->warn(sprintf('Unknown property: %s', $mapping['property']));
+                $this->logger->err(sprintf('Unknown property: %s', $mapping['property']));
                 continue;
             }
 
-            $nodeList = $xpath->query($mapping['xpath'], $element);
-            if ($nodeList === false) {
-                $this->logger->warn(sprintf('XPath expression is invalid: %s', $mapping['xpath']));
-                continue;
+            $value = '';
+            $xpath_result = $this->evalXpath($xpath, $element, $mapping['xpath']);
+            if ($xpath_result === null) continue;
+            if (!$xpath_result instanceof DOMNodeList) {
             }
+            switch ($mapping['name']) {
+                case 'xpath': 
+                    $replacements = $this->stringToKeyValues($mapping['replacements'] ?? '');
+                    if ($xpath_result instanceof DOMNodeList) {
+                        foreach ($xpath_result as $node) {
+                            $value = trim($node->textContent);
+                            if ($value === '') {
+                                break;
+                            }
+                            if (array_key_exists($value, $replacements)) {
+                                $value = $replacements[$value];
+                            }
 
-            $type = $mapping['type'] ?? 'literal';
-            if ($type !== 'literal' && $type !== 'uri') {
-                $type = 'literal';
-            }
-
-            foreach ($nodeList as $node) {
-                $value = trim($node->textContent);
-                if ($value === '') {
-                    continue;
-                }
-
-                $replacements = $this->stringToKeyValues($mapping['replacements'] ?? '');
-                if (array_key_exists($value, $replacements)) {
-                    $value = $replacements[$value];
-                }
-
-                $valueData = [
-                    'property_id' => $property->id(),
-                    'is_public' => true,
-                    'type' => $type,
-                ];
-                if ($type === 'uri') {
-                    $valueData['@id'] = $value;
-                } elseif ($type === 'literal') {
-                    $valueData['@value'] = $value;
-                }
-
-                if ($node instanceof DOMElement) {
-                    $lang = trim($node->getAttribute('xml:lang'));
-                    if ($lang) {
-                        if ($type === 'uri') {
-                            $valueData['o:lang'] = $lang;
-                        } elseif ($type === 'literal') {
-                            $valueData['@language'] = $lang;
+                            $lang = null;
+                            if ($node instanceof DOMElement) {
+                                $lang = trim($node->getAttribute('xml:lang'));
+                            }
+                            $this->addValueToItem($itemData, $property, $type, $value, $lang);
                         }
+                    } else {
+                        if ($xpath_result === '') {
+                            break;
+                        }
+                        if (array_key_exists($xpath_result, $replacements)) {
+                            $value = $replacements[$value];
+                        } else {
+                            $value = $xpath_result;
+                        }
+                        $this->addValueToItem($itemData, $property, $type, $value);
                     }
-                }
-
-                $itemData[$property->term()] ??= [];
-                $itemData[$property->term()][] = $valueData;
+                    break;
+                case 'literal-value-xpath-condition':
+                    $value = $xpath_result ? $mapping['truthy-value'] : $mapping['falsy-value'];
+                    $this->addValueToItem($itemData, $property, $type, $value);
+                    break;
+                default:
+                    $this->logger->err(sprintf("Unknown mapping: %s", $mapping['name']));
+                    break;
             }
         }
 
         $itemId = yield $itemData;
+    }
+
+    /**
+     * @param array<string,mixed> $itemData
+     */
+    protected function addValueToItem(array &$itemData, PropertyRepresentation $property, string $type, string $value, string $lang = null): void {
+        $valueData = [
+            'property_id' => $property->id(),
+            'is_public' => true,
+            'type' => $type,
+        ];
+
+        if ($type === 'uri') {
+            $valueData['@id'] = $value;
+        } elseif ($type === 'literal') {
+            $valueData['@value'] = $value;
+        } elseif (str_starts_with($type, 'customvocab')) {
+            if (!$this->isValidCustomVocab($value, explode(':', $type)[1])) {
+                return;
+            }
+            $valueData['@value'] = $value;
+        } 
+        $itemData[$property->term()] ??= [];
+        $itemData[$property->term()][] = $valueData;
     }
 
     public function addConfigurationFormElements(Form $form): void
@@ -139,9 +190,16 @@ class XPathConverter implements ConfigurableConverterInterface
                 'value_options' => [
                     [
                         'value' => 'xpath',
-                        'label' => 'XPath mapping', // @translate
+                        'label' => 'Query a value from an XPath expression', // @translate
                         'attributes' => [
                             'data-repeatable' => '1',
+                        ],
+                    ],
+                    [
+                        'value' => 'literal-value-xpath-condition',
+                        'label' => 'Create a value with an XPath condition', // @translate
+                        'attributes' => [
+                            'data-repeatable' => '2',
                         ],
                     ],
                 ],

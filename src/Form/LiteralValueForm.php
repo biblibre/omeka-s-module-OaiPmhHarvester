@@ -6,9 +6,9 @@ use Laminas\Form\Form;
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\Api\Manager as ApiManager;
 
-class MappingForm extends Form
+/// Form for the
+class LiteralValueForm extends Form
 {
-
     protected ModuleManager $moduleManager;
     protected ApiManager $apiManager;
 
@@ -16,13 +16,15 @@ class MappingForm extends Form
         $this->moduleManager = $moduleManager;
     }
 
-    public function setApiManager(ApiManager $apiManager): void
+    public function setApiManager(ApiManager $apiManager)
     {
         $this->apiManager = $apiManager;
     }
 
+
     public function init(): void
     {
+
         $this->add([
             'name' => 'name',
             'type' => \Laminas\Form\Element\Text::class,
@@ -38,13 +40,13 @@ class MappingForm extends Form
             'name' => 'xpath',
             'type' => \Laminas\Form\Element\Textarea::class,
             'options' => [
-                'label' => 'XPath', // @translate
-                'info' => 'XPath expression, relative to the <oai:record> element, for instance "oai:metadata/oai_dc:dc/dc:title"', // @translate
+                'label' => 'XPath Condition', // @translate
+                'info' => 'XPath expression that must evaluate to "true" or "false", relative to the <oai:record> element, for instance "starts-with(oai:metadata/oai_dc:dc/dc:identifier, "https")"', // @translate
             ],
             'attributes' => [
                 'data-field-data-key' => 'xpath',
                 'class' => 'oaipmhharvester-monospace',
-                'required' => true,
+                'placeholder' => '"true"',
             ],
         ]);
 
@@ -74,6 +76,7 @@ class MappingForm extends Form
                 $typeValueOptions['customvocab:' . $vocab->id()] = 'CustomVocab - ' . $vocab->label();
             }
         }
+        
 
         $this->add([
             'name' => 'type',
@@ -89,16 +92,31 @@ class MappingForm extends Form
         ]);
 
         $this->add([
-            'name' => 'replacements',
-            'type' => \Laminas\Form\Element\Textarea::class,
+            'name' => 'truthy-value',
+            'type' => \Laminas\Form\Element\Text::class,
             'options' => [
-                'label' => 'Replacements', // @translate
-                'info' => 'Text replacements to perform. One per line. Format: old-value = new-value. Replacement is done only if the value matches exactly.', // @translate
+                'label' => 'value if true', // @translate
+                'info' => 'Value to insert in the when the XPath evaluates to true.', // @translate
             ],
             'attributes' => [
-                'data-field-data-key' => 'replacements',
-                'placeholder' => "old value 1 = new value 1\nold value 2 = new value 2", // @translate
+                'required' => true,
+                'data-field-data-key' => 'truthy-value',
+                'placeholder' => "Value Of property", // @translate
             ],
         ]);
+
+        $this->add([
+            'name' => 'falsy-value',
+            'type' => \Laminas\Form\Element\Text::class,
+            'options' => [
+                'label' => 'value if false (optional)', // @translate
+                'info' => 'Value to insert in the when the XPath expression evaluates to false. If this is not filled the property is not created.', // @translate
+            ],
+            'attributes' => [
+                'data-field-data-key' => 'falsy-value',
+                'placeholder' => "Value Of property", // @translate
+            ],
+        ]);
+
     }
 }
