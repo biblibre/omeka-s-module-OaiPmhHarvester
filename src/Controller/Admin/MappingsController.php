@@ -3,6 +3,7 @@ namespace OaiPmhHarvester\Controller\Admin;
 
 use Laminas\View\Model\ViewModel;
 use Laminas\Mvc\Controller\AbstractActionController;
+use OaiPmhHarvester\Form\LiteralValueForm;
 use OaiPmhHarvester\Form\MappingForm;
 
 class MappingsController extends AbstractActionController
@@ -37,13 +38,24 @@ class MappingsController extends AbstractActionController
     public function fieldEditSidebarAction()
     {
         $fieldData = $this->params()->fromQuery('field_data');
-        $form = $this->getForm(MappingForm::class);
-        $form->setData($fieldData);
+
+        switch ($fieldData['name']) {
+            case 'xpath': 
+                $form = $this->getForm(MappingForm::class);
+                $form->setData($fieldData);
+                break;
+            case 'literal-value-xpath-condition':
+                $form = $this->getForm(LiteralValueForm::class);
+                $form->setData($fieldData);
+                break;
+            default:
+                $this->messenger()->addError(sprintf('Unknown Mapping rule: %s' , $fieldData['name']));
+                break;
+        }
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('form', $form);
-
         return $view;
     }
 }

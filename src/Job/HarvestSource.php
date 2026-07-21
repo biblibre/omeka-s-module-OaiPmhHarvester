@@ -15,6 +15,7 @@ class HarvestSource extends AbstractJob
 
     public function perform()
     {
+        $previous_libxml_error_status = libxml_use_internal_errors(true);
         $services = $this->getServiceLocator();
         $api = $services->get('Omeka\ApiManager');
         $logger = $services->get('Omeka\Logger');
@@ -31,6 +32,7 @@ class HarvestSource extends AbstractJob
 
         if ($this->shouldStop()) {
             $logger->info('Job stopped');
+            libxml_use_internal_errors($previous_libxml_error_status);
             return;
         }
 
@@ -50,11 +52,13 @@ class HarvestSource extends AbstractJob
 
         if ($this->shouldStop()) {
             $logger->info('Job stopped');
+            libxml_use_internal_errors($previous_libxml_error_status);
             return;
         }
 
         $logger->info(sprintf('Total records imported: %d', $this->importedRecords));
         $logger->info('Job ended normally');
+        libxml_use_internal_errors($previous_libxml_error_status);
     }
 
     protected function deleteAllItems(SourceRepresentation $source)
