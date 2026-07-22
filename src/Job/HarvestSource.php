@@ -194,7 +194,7 @@ class HarvestSource extends AbstractJob
                             $partialItemData = array_filter($itemData, fn($key) => in_array($key, $terms), ARRAY_FILTER_USE_KEY);
                             $api->update('items', $itemId, $partialItemData, [], ['isPartial' => true]);
 
-                            $logger->info(sprintf('Imported record %s (updated item #%d)', $identifier, $item->id()));
+                            $logger->info(sprintf("Imported record %s (updated item #%d) \n", $identifier, $item->id()));
                         } elseif ($updateMode === self::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK) {
                             $partialItemData = array_filter($itemData, fn($key) => in_array($key, $terms), ARRAY_FILTER_USE_KEY);
 
@@ -221,7 +221,7 @@ class HarvestSource extends AbstractJob
 
                             $api->update('items', $itemId, $partialItemData, [], ['isPartial' => true]);
 
-                            $logger->info(sprintf('Imported record %s (updated item #%d)', $identifier, $item->id()));
+                            $logger->info(sprintf("Imported record %s (updated item #%d) \n", $identifier, $item->id()));
                         } else {
                             throw new \Exception(sprintf('Invalid update mode: %s', $updateMode));
                         }
@@ -241,7 +241,7 @@ class HarvestSource extends AbstractJob
                         ];
                         $api->create('oaipmhharvester_source_records', $sourceRecordData);
 
-                        $logger->info(sprintf('Imported record %s (created item #%d)', $identifier, $item->id()));
+                        $logger->info(sprintf("Imported record %s (created item #%d) \n", $identifier, $item->id()));
                     }
 
                     $this->importedRecords++;

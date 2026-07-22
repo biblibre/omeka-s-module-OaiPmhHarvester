@@ -41,7 +41,7 @@ class XPathConverter implements ConfigurableConverterInterface
         $terms = $vocab->terms();
         $valid = in_array($value, $terms); 
         if (!$valid) {
-            $this->logger->err(sprintf('Invalid value "%s" for Custom Vocab: %s ', $value, $vocab->label()));
+            $this->logger->err(sprintf('Invalid value "%s" for Custom Vocab: %s', $value, $vocab->label()));
         }
         return $valid;
     }
@@ -55,8 +55,8 @@ class XPathConverter implements ConfigurableConverterInterface
         $xpath_result = $xpath->evaluate($expr, $element);
         $errors = libxml_get_errors();
         if (!$xpath_result && $errors) {
-            $errors_string = implode('\n\t', array_map(fn($it) => sprintf("Error code %d : %s", $it->code, $it->message), $errors));
-            $this->logger->err(sprintf("Errors while exectuing XPath expression: %s", $errors_string));
+            $errors_string = implode('\n\t', array_map(fn($it) => sprintf("LibXml error code %d : %s", $it->code, trim($it->message)), $errors));
+            $this->logger->err(sprintf("Errors while exectuing XPath expression %s : \n %s", $expr, $errors_string));
             return null;
         }
         return $xpath_result;
@@ -89,7 +89,10 @@ class XPathConverter implements ConfigurableConverterInterface
 
             $value = '';
             $xpath_result = $this->evalXpath($xpath, $element, $mapping['xpath']);
-            if ($xpath_result === null) continue;
+            if ($xpath_result === null) { 
+                $this->logger->err(sprintf("Error while executing xpath for mapping for %s.", $mapping['property']));
+                continue;
+            }
             if (!$xpath_result instanceof DOMNodeList) {
             }
             switch ($mapping['name']) {
