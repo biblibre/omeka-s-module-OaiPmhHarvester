@@ -1,5 +1,13 @@
 # Changelog (BibLibre modifications)
 
+## [Unrealeased]
+
+- Improve XPath evaluation
+- Add new Create Value mapping for the XPathConverter.
+- Improve HarvestSource logs.
+- Fix a bug where empty `until` and `from` query parameters were causing the request to fail in the OAI-PMH harvest job.
+- Fixed a few unused imports.
+
 ## [3.4.19-biblibre.7] - 2026-10-20
 
 - Add 'Accept' header to HTTP requests sent to OAI-PMH repositories because
