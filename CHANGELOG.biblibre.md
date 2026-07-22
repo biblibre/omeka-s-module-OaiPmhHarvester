@@ -1,5 +1,13 @@
 # Changelog (BibLibre modifications)
 
+## [Unrealeased] 
+
+- Improve XPath evaluation
+- Add new Create Value mapping for the XPathConverter.
+- Improve HarvestSource logs.
+- Fix a bug where empty `until` and `from` query parameters were causing the request to fail in the OAI-PMH harvest job.
+- Fixed a few unused imports.
+
 ## [3.4.19-biblibre.4] - 2026-04-30
 
 - Add ability to update existing items
