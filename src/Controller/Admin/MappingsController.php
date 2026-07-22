@@ -56,6 +56,7 @@ class MappingsController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('form', $form);
+        $view->setVariable('name', $fieldData['name']);
         return $view;
     }
 }

@@ -32,20 +32,37 @@
                 <table class="tablesaw">
                     <thead>
                         <tr>
+                            <th><?= $this->translate('Mapping') ?></th>
                             <th><?= $this->translate('XPath') ?></th>
                             <th><?= $this->translate('Property') ?></th>
                             <th><?= $this->translate('Type') ?></th>
-                            <th><?= $this->translate('Replacements') ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($mappings as $mapping): ?>
-                            <?php $typeLabel = $this->dataType()->getLabel($mapping['type'] ?? 'literal'); ?>
+                            <?php
+                                $label = '';
+                                switch ($mapping['name']) {
+                                    case 'xpath':
+                                        $label = $this->translate('Query value');
+                                        break;
+                                    case 'literal-value-xpath-condition':
+                                        $label = $this->translate('Create value');
+                                        break;
+                                    default:
+                                        $label = '';
+                                }
+
+                                $typeLabel = $this->dataType()->getLabel($mapping['type'] ?? 'literal'); 
+                                if (str_starts_with($mapping['type'], 'customvocab')) {
+                                    $typeLabel = 'CusomVocab - ' . $typeLabel;
+                                }
+                            ?>
                             <tr>
+                                <td><?= $label ?></td>
                                 <td><?= $this->escapeHtml($mapping['xpath'] ?? '') ?></td>
                                 <td><?= $this->escapeHtml($mapping['property'] ?? '') ?></td>
                                 <td><?= $this->escapeHtml($this->translate($typeLabel)) ?></td>
-                                <td><?= nl2br($this->escapeHtml($mapping['replacements'] ?? '')) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

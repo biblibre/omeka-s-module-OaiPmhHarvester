@@ -12,10 +12,18 @@ ul.fields-fields {
     list-style: none;
 }
 
-li.fields-field {
-    display: flex;
-    align-items: center;
-    line-height: 1.5;
+.fields-field-summary {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+  flex-wrap: nowrap;
+  & .fields-field-name {
+    text-
+  }
+  & .fields-field-name:not(:empty) + .fields-field-term::before {
+      white-space: pre;
+      content: " · ";
+  }
 }
 
 .oaipmhharvester-monospace {

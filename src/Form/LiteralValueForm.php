@@ -16,7 +16,7 @@ class LiteralValueForm extends Form
         $this->moduleManager = $moduleManager;
     }
 
-    public function setApiManager(ApiManager $apiManager)
+    public function setApiManager(ApiManager $apiManager): void
     {
         $this->apiManager = $apiManager;
     }
@@ -24,17 +24,6 @@ class LiteralValueForm extends Form
 
     public function init(): void
     {
-
-        $this->add([
-            'name' => 'name',
-            'type' => \Laminas\Form\Element\Text::class,
-            'options' => [
-                'label' => 'Name', // @translate
-            ],
-            'attributes' => [
-                'disabled' => true,
-            ],
-        ]);
 
         $this->add([
             'name' => 'xpath',
@@ -46,7 +35,8 @@ class LiteralValueForm extends Form
             'attributes' => [
                 'data-field-data-key' => 'xpath',
                 'class' => 'oaipmhharvester-monospace',
-                'placeholder' => '"true"',
+                'value' => '"true"',
+                'required' => true,
             ],
         ]);
 
