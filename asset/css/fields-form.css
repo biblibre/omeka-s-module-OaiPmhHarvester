@@ -18,7 +18,7 @@ ul.fields-fields {
   line-height: 1.5;
   flex-wrap: nowrap;
   & .fields-field-name {
-    text-
+    font-weight: bold;
   }
   & .fields-field-name:not(:empty) + .fields-field-term::before {
       white-space: pre;
