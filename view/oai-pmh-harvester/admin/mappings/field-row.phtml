@@ -4,36 +4,60 @@
  * @var array $fieldData
  * @var \OaiPmhHarvester\Api\Representation\ConfigurationRepresentation|null $configuration
  */
+
+$xpath = $fieldData['xpath'] ?? ''; 
+$property = $fieldData['property'] ?? ''; 
+$type =  $fieldData['property'] ?? '';
+
+switch ($fieldData['name']) {
+    case 'xpath':
+        $label = $this->translate('Query value');
+        break;
+    case 'literal-value-xpath-condition':
+        $label = $this->translate('Create value');
+        break;
+    default:
+        $label = '';
+}
+$typeLabel = '';
+if ($type) {
+    $typeLabel = $this->dataType()->getLabel($fieldData['type'] ?? 'literal');
+    if (str_starts_with($fieldData['type'], 'customvocab')) {
+        $typeLabel = 'CusomVocab - ' . $typeLabel;
+    }
+}
 ?>
+
 <li class="fields-field row"
     data-field-name="<?php echo $this->escapeHtml($fieldData['name']); ?>"
     data-field-data="<?php echo $this->escapeHtml(json_encode($fieldData)); ?>">
-    <span class="sortable-handle"></span>
     <span class="fields-field-restore" style="display: none;"><?php echo $this->translate('Mapping to be removed'); ?></span>
-    <?php $xpath = $fieldData['xpath'] ?? ''; ?>
-    <?php $property = $fieldData['property'] ?? ''; ?>
-    <span class="fields-field-label">
-        <?php if ($xpath && $property): ?>
-            <span class="oaipmhharvester-monospace"><?= $this->escapeHtml($xpath) ?></span>
-            →
-            <span class="oaipmhharvester-monospace"><?= $this->escapeHtml($property) ?></span>
-            <?php $typeLabel = $this->dataType()->getLabel($fieldData['type'] ?? 'literal'); ?>
-            (<?= $this->escapeHtml($this->translate($typeLabel)) ?>)
-        <?php endif; ?>
+    <span class="fields-field-summary">
+        <span class="sortable-handle"></span>
+        <span class="row">
+            <span class="fields-field-name"><?=$label?></span>
+            <span class="oaipmhharvester-monospace fields-field-term"><?= $this->escapeHtml($property) ?> (<?= $this->escapeHtml($this->translate($typeLabel)) ?>) </span> 
+        </span>
+        <ul class="actions">
+            <li><?php echo $this->hyperlink('', [], [
+                'class' => 'o-icon-edit fields-field-edit-button',
+                'title' => $this->translate('Edit mapping'),
+                ]); ?></li>
+            <li><?php echo $this->hyperlink('', [], [
+                'class' => 'o-icon-delete fields-field-remove-button',
+                'title' => $this->translate('Remove mapping'),
+                ]); ?></li>
+            <li><?php echo $this->hyperlink('', [], [
+                'class' => 'o-icon-undo fields-field-restore-button',
+                'title' => $this->translate('Restore mapping'),
+                'style' => 'display: none;',
+                ]); ?></li>
+        </ul>
     </span>
-    <ul class="actions">
-        <li><?php echo $this->hyperlink('', [], [
-            'class' => 'o-icon-edit fields-field-edit-button',
-            'title' => $this->translate('Edit mapping'),
-        ]); ?></li>
-        <li><?php echo $this->hyperlink('', [], [
-            'class' => 'o-icon-delete fields-field-remove-button',
-            'title' => $this->translate('Remove mapping'),
-        ]); ?></li>
-        <li><?php echo $this->hyperlink('', [], [
-            'class' => 'o-icon-undo fields-field-restore-button',
-            'title' => $this->translate('Restore mapping'),
-            'style' => 'display: none;',
-        ]); ?></li>
-    </ul>
+    <?php if ($xpath): ?>
+        <span class="fields-field-expr">
+            <span class="field-meta"> <?php echo $this->translate('Xpath Expression'); ?> :</span>
+            <span class="oaipmhharvester-monospace"><?= $this->escapeHtml($xpath) ?></span>
+        </span>
+    <?php endif; ?>
 </li>

@@ -23,16 +23,6 @@ class MappingForm extends Form
 
     public function init(): void
     {
-        $this->add([
-            'name' => 'name',
-            'type' => \Laminas\Form\Element\Text::class,
-            'options' => [
-                'label' => 'Name', // @translate
-            ],
-            'attributes' => [
-                'disabled' => true,
-            ],
-        ]);
 
         $this->add([
             'name' => 'xpath',
