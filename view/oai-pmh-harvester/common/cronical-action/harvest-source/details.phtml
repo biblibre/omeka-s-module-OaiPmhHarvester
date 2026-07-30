@@ -1,0 +1,46 @@
+<h3><?= $this->escapeHtml($this->translate('Action settings')) ?></h3>
+
+<div class="meta-group">
+    <h4><?= $this->escapeHtml($this->translate('Source')) ?></h4>
+    <div class="value">
+        <?php $source_id = $scheduledAction->setting('source'); ?>
+        <?php $source = $this->api()->read('oaipmhharvester_sources', $source_id)->getContent(); ?>
+        <?= $this->escapeHtml($source->name()) ?>
+    </div>
+</div>
+
+<div class="meta-group">
+    <h4><?= $this->escapeHtml($this->translate('Selective harvesting')) ?></h4>
+    <div class="value">
+        <?php
+        $from = $scheduledAction->setting('from', '');
+        $from_days = intval($scheduledAction->setting('from_days', ''));
+        if ($from === 'last_harvest') {
+            echo $this->escapeHtml($this->translate('Harvest records added or modified since last harvest'));
+        } elseif ($from === 'last_n_days') {
+            echo $this->escapeHtml(sprintf($this->translate('Harvest records added or modified since %d days'), $from_days));
+        } else {
+            echo $this->escapeHtml($this->translate('No (harvest all records)'));
+        }
+        ?>
+    </div>
+</div>
+
+<div class="meta-group">
+    <h4><?= $this->escapeHtml($this->translate('Owner')) ?></h4>
+    <div class="value">
+        <?php $owner_id = $scheduledAction->setting('owner_id'); ?>
+        <?php if ($owner_id): ?>
+            <?php
+            try {
+                $owner = $this->api()->read('users', $owner_id)->getContent();
+                echo $this->escapeHtml($owner->name());
+            } catch (Exception $e) {
+                echo $this->escapeHtml($this->translate('[Unknown user]'));
+            }
+            ?>
+        <?php else: ?>
+            <?= $this->escapeHtml($this->translate('[Not set]')) ?>
+        <?php endif; ?>
+    </div>
+</div>

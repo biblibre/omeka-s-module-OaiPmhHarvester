@@ -1,5 +1,9 @@
 # Changelog (BibLibre modifications)
 
+## Unreleased
+
+- Add schedulable (Cronical) action to harvest a source
+
 ## [3.4.19-biblibre.4] - 2026-04-30
 
 - Add ability to update existing items
