@@ -174,7 +174,7 @@ abstract class AbstractHarvesterMap implements HarvesterMapInterface
             ->addGroupBy('property.id')
         ;
         return $properties
-            = array_map('intval', $connection->executeQuery($qb)->fetchAllKeyValue());
+            = array_map('intval', $connection->executeQuery($qb->getSQL())->fetchAllKeyValue());
     }
 
     protected function getLocalNamesByIdForVocabulary(string $prefix): array

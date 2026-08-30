@@ -59,7 +59,9 @@ if (version_compare($oldVersion, '3.0.3', '<')) {
         DROP INDEX idx_84d382f4be04ea9 ON oai_pmh_harvester_entity;
         CREATE INDEX IDX_EEA09D7FBE04EA9 ON oai_pmh_harvester_entity (job_id);
         SQL;
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 }
 
 if (version_compare($oldVersion, '3.0.6', '<')) {
@@ -99,7 +101,9 @@ if (version_compare($oldVersion, '3.0.6', '<')) {
         ALTER TABLE oaipmhharvester_entity ADD CONSTRAINT FK_FE902C0EBE04EA9 FOREIGN KEY (job_id) REFERENCES job (id);
         SQL;
 
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 
     $sql = <<<'SQL'
         SET FOREIGN_KEY_CHECKS=0;
@@ -109,7 +113,9 @@ if (version_compare($oldVersion, '3.0.6', '<')) {
             FROM oai_pmh_harvester_harvest_job;
         SET FOREIGN_KEY_CHECKS=1;
         SQL;
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 
     $sql = <<<'SQL'
         SET FOREIGN_KEY_CHECKS=0;
@@ -119,7 +125,9 @@ if (version_compare($oldVersion, '3.0.6', '<')) {
             FROM oai_pmh_harvester_entity;
         SET FOREIGN_KEY_CHECKS=1;
         SQL;
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 
     $sql = <<<'SQL'
         SET FOREIGN_KEY_CHECKS=0;
@@ -127,7 +135,9 @@ if (version_compare($oldVersion, '3.0.6', '<')) {
         DROP TABLE IF EXISTS oai_pmh_harvester_entity;
         SET FOREIGN_KEY_CHECKS=1;
         SQL;
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 
     $sql = <<<'SQL'
         UPDATE job
@@ -165,7 +175,9 @@ if (version_compare($oldVersion, '3.3.0.10', '<')) {
         ALTER TABLE `oaipmhharvester_harvest` CHANGE `resource_type` `entity_name` VARCHAR(190) NOT NULL;
         ALTER TABLE `oaipmhharvester_entity` CHANGE `resource_type` `entity_name` VARCHAR(190) NOT NULL;
         SQL;
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 }
 
 if (version_compare($oldVersion, '3.3.0.12', '<')) {
@@ -179,7 +191,9 @@ if (version_compare($oldVersion, '3.3.0.12', '<')) {
         ALTER TABLE `oaipmhharvester_entity` ADD CONSTRAINT FK_FE902C0EBE04EA9 FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE CASCADE;
         SQL;
     try {
-        $connection->executeStatement($sql);
+        foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+            $connection->executeStatement($sql);
+        }
     } catch (\Throwable $e) {
         // Nothing.
     }
@@ -191,7 +205,9 @@ if (version_compare($oldVersion, '3.3.0.12', '<')) {
         ALTER TABLE `oaipmhharvester_entity` CHANGE `created` `created` DATETIME NOT NULL AFTER `identifier`;
         CREATE INDEX identifier_idx ON `oaipmhharvester_entity` (`identifier`(767));
         SQL;
-    $connection->executeStatement($sql);
+    foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+        $connection->executeStatement($sql);
+    }
 }
 
 if (version_compare($oldVersion, '3.4.17', '<')) {
@@ -237,7 +253,9 @@ if (version_compare($oldVersion, '3.4.18', '<')) {
             ALTER TABLE `oaipmhharvester_entity`
                 CHANGE `harvest_id` `harvest_id` INT NOT NULL AFTER `id`;
             SQL;
-        $connection->executeStatement($sql);
+        foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+            $connection->executeStatement($sql);
+        }
     } catch (\Throwable $e) {
         // Already updated.
     }
@@ -283,7 +301,9 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
             CHANGE `mode_harvest` `mode_harvest` VARCHAR(190) NOT NULL AFTER `metadata_prefix`;
         SQL;
     try {
-        $connection->executeStatement($sql);
+        foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+            $connection->executeStatement($sql);
+        }
     } catch (\Throwable $e) {
         // Already updated.
     }
@@ -295,7 +315,9 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
             CHANGE `mode_delete` `mode_delete` VARCHAR(190) NOT NULL AFTER `mode_harvest`;
         SQL;
     try {
-        $connection->executeStatement($sql);
+        foreach (array_filter(array_map('trim', explode(";\n", $sql))) as $sql) {
+            $connection->executeStatement($sql);
+        }
     } catch (\Throwable $e) {
         // Already updated.
     }
@@ -310,7 +332,7 @@ if (version_compare($oldVersion, '3.4.19', '<')) {
         ->andWhere('stats != "[]"')
         ->andWhere('stats != "{}"')
         ->orderBy('id', 'asc');
-    $harvestStats = $connection->executeQuery($qb)->fetchAllKeyValue();
+    $harvestStats = $connection->executeQuery($qb->getSQL())->fetchAllKeyValue();
     foreach ($harvestStats as $id => $stats) {
         $stats = json_decode($stats, true) ?: [];
         $stats = array_filter($stats);
