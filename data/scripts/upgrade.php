@@ -17,6 +17,18 @@ use Omeka\Stdlib\Message;
  * @var \Doctrine\ORM\EntityManager $entityManager
  * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
+$commonModule = $services->get('Omeka\ModuleManager')->getModule('Common');
+if (!$commonModule
+    || $commonModule->getState() !== \Omeka\Module\Manager::STATE_ACTIVE
+    || version_compare((string) $commonModule->getIni('version'), '3.4.86', '<')
+) {
+    $message = new \Omeka\Stdlib\Message(
+        'The module "%1$s" requires the module "%2$s", version %3$s or above.', // @translate
+        'OaiPmhHarvester', 'Common', '3.4.91'
+    );
+    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+}
+
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
 $settings = $services->get('Omeka\Settings');

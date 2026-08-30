@@ -128,7 +128,7 @@ This module has first been built by [Numerizen] as a simplified version of the
 [MARCXML]: http://www.loc.gov/standards/marcxml
 [RFC 1807]: http://www.ietf.org/rfc/rfc1807.txt
 [installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
-[module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/-/issues
+[module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/-/work_items
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [Omeka Classic]: https://omeka.org/classic
 [plugin]: https://github.com/omeka/plugin-OaipmhHarvester
