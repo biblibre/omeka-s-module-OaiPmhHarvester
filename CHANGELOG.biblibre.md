@@ -2,8 +2,8 @@
 
 ## [Unrealeased] 
 
-- Improve XPath evaluation
-- Add new Create Value mapping for the XPathConverter.
+- Improve XPath evaluation (better error reporting and more expression avilable)
+- Make the basic mapping rule more powerfull. (can now create values and operate on conditions).
 - Improve HarvestSource logs.
 - Fix a bug where empty `until` and `from` query parameters were causing the request to fail in the OAI-PMH harvest job.
 - Fixed a few unused imports.
