@@ -22,6 +22,5 @@
                 dateInput.insertAdjacentElement('afterend', timeInput);
             }
         }
-
     });
 })(jQuery);

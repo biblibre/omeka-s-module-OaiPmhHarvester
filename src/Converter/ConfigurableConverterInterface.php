@@ -5,7 +5,6 @@ namespace OaiPmhHarvester\Converter;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilterInterface;
 use Laminas\View\Renderer\PhpRenderer;
-use OaiPmhHarvester\OaiPmh\OaiRecord;
 
 interface ConfigurableConverterInterface extends ConverterInterface
 {

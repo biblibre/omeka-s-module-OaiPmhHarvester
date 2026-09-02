@@ -1,0 +1,57 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $fieldData
+ * @var \OaiPmhHarvester\Api\Representation\ConfigurationRepresentation|null $configuration
+ */
+
+$xpath = $fieldData['xpath-cond'] ?? ''; 
+$property = $fieldData['property'] ?? ''; 
+$type =  $fieldData['type'] ?? '';
+
+// switch ($fieldData['name']) {
+//     case 'xpath':
+//         $label = $this->translate('Query value');
+//         break;
+//     case 'literal-value-xpath-condition':
+//         $label = $this->translate('Create value');
+//         break;
+//     default:
+//         $label = '';
+// }
+$typeLabel = '';
+if ($type) {
+    $typeLabel = $this->dataType()->getLabel($fieldData['type'] ?? 'literal');
+    if (str_starts_with($fieldData['type'], 'customvocab')) {
+        $typeLabel = 'CusomVocab - ' . $typeLabel;
+    }
+}
+?>
+
+<li class="fields-field row"
+    data-field-data="<?php echo $this->escapeHtml(json_encode($fieldData)); ?>">
+    <span class="fields-field-restore" style="display: none;"><?php echo $this->translate('Mapping to be removed'); ?></span>
+    <span class="fields-field-summary">
+        <span class="sortable-handle"></span>
+        <span class="row">
+            <span class="fields-field-name">Rule </span>
+            <span class="oaipmhharvester-monospace fields-field-term"><?= $this->escapeHtml($property) ?> (<?= $this->escapeHtml($this->translate($typeLabel)) ?>) </span> 
+        </span>
+        <ul class="actions">
+            <li><?php echo $this->hyperlink('', [], [
+                'class' => 'o-icon-edit fields-field-edit-button',
+                'title' => $this->translate('Edit mapping'),
+                ]); ?></li>
+            <li><?php echo $this->hyperlink('', [], [
+                'class' => 'o-icon-delete fields-field-remove-button',
+                'title' => $this->translate('Remove mapping'),
+                ]); ?></li>
+            <li><?php echo $this->hyperlink('', [], [
+                'class' => 'o-icon-undo fields-field-restore-button',
+                'title' => $this->translate('Restore mapping'),
+                'style' => 'display: none;',
+                ]); ?></li>
+        </ul>
+    </span>
+    <?= $this->partial('oai-pmh-harvester/admin/mappings/rule', ['rule' => $fieldData]) ?>
+</li>

@@ -1,0 +1,44 @@
+.field-add-group {
+    display: flex;
+    margin-bottom: 0;
+}
+
+button.fields-field-add-button {
+  margin-left: .5rem;
+  width: 100%;
+}
+
+.fields-fields {
+    padding-left: 0;
+    list-style: none;
+}
+
+.fields-field-summary {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+  flex-wrap: nowrap;
+  & .fields-field-name {
+    font-weight: bold;
+  }
+  & .fields-field-name:not(:empty) + .fields-field-term::before {
+      white-space: pre;
+      content: " · ";
+  }
+}
+
+.oaipmhharvester-monospace {
+    font-family: "Source Code Pro", monospace;
+}
+
+.rule {
+  padding: 0;
+  white-space: pre-wrap;
+  margin-left: 2em;
+  & > .rule-op {
+    font-family: "Source Code Pro", monospace;
+    background-color: rgba(0,0,0,.04);
+    padding: .125em .25em;
+    /* border-radius: .25em; */
+  }
+}

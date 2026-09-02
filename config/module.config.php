@@ -53,10 +53,10 @@ return [
         'invokables' => [
             Form\Element\Fields::class => Form\Element\Fields::class,
             Form\Element\SetsTextarea::class => Form\Element\SetsTextarea::class,
-            Form\MappingForm::class => Form\MappingForm::class,
             Form\SetsForm::class => Form\SetsForm::class,
         ],
         'factories' => [
+            Form\MappingForm::class => Service\Form\MappingFormFactory::class,
             Form\HarvestForm::class => Service\Form\HarvestFormFactory::class,
             Form\ConfigurationAddForm::class => Service\Form\ConfigurationAddFormFactory::class,
             Form\SourceAddForm::class => Service\Form\SourceAddFormFactory::class,
