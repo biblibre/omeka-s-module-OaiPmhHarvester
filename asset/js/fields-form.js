@@ -5,32 +5,11 @@ const sidebarField = $('<div class="sidebar" id="fields-sidebar"></div>');
 sidebarField.appendTo('#content');
 
 /**
- * Reset field name select.
- */
-const resetFieldNameSelect = function(formElement) {
-    const fieldNameSelect = formElement.find('.fields-field-name-select');
-    const fieldAddButton = formElement.find('.fields-field-add-button');
-    fieldAddButton.prop('disabled', true);
-    fieldNameSelect.val('');
-    fieldNameSelect.find('option').each(function() {
-        const repeatable = this.getAttribute('data-repeatable');
-        if (!repeatable) {
-            const thisOption = $(this);
-            const fieldName = thisOption.val();
-            const numFields = formElement.find(`li[data-field-name="${fieldName}"]`).length;
-            if (numFields >= 1) {
-                thisOption.prop('disabled', true);
-            }
-        }
-    });
-};
-
-/**
  * Open the field edit sidebar.
  */
 const openSidebarField = function(formElement, field) {
     $.get(formElement.data('fieldEditSidebarUrl'), {
-        'field_data': field.data('fieldData')
+        'field_data': field.data('field-data')
     }, function(data) {
         sidebarField.html(data);
         Omeka.openSidebar(sidebarField);
@@ -46,32 +25,19 @@ $('.fields-form-element').each(function() {
     // Add configured fields to list.
     $.get(thisFormElement.data('fieldListUrl'), function(data) {
         thisFormElement.find('.fields-fields').html(data);
-        resetFieldNameSelect(thisFormElement);
+        // resetFieldNameSelect(thisFormElement);
     });
-});
-
-// Handle field name select.
-$('.fields-field-name-select').on('change', function(e) {
-    const thisSelect = $(this);
-    const fieldAddButton = thisSelect.closest('.fields-form-element').find('.fields-field-add-button');
-    fieldAddButton.prop('disabled', ('' === thisSelect.val()) ? true : false);
 });
 
 // Handle field add button.
 $('.fields-field-add-button').on('click', function(e) {
     const thisButton = $(this);
     const formElement = thisButton.closest('.fields-form-element');
-    const fieldNameSelect = formElement.find('.fields-field-name-select');
-    $.get(formElement.data('fieldRowUrl'), {
-        'field_data': {
-            'name': fieldNameSelect.val()
-        }
-    }, function(data) {
+    $.get(formElement.data('fieldRowUrl'), { 'field_data': {'name': 'rule'} }, function(data) {
         const field = $($.parseHTML(data.trim()));
         formElement.find('.fields-fields').append(field);
         selectedField = field;
         openSidebarField(formElement, field);
-        resetFieldNameSelect(formElement);
     });
 });
 

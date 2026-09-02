@@ -8,6 +8,6 @@
     <?php $settings = $configuration->settings(); ?>
     <?php $fields = $settings['mappings'] ?? [] ?>
     <?php foreach ($fields as $fieldData): ?>
-        <?= $this->partial('oai-pmh-harvester/admin/mappings/field-row', ['fieldData' => $fieldData, 'configuration' => $configuration]) ?>
+        <?= $this->partial('oai-pmh-harvester/admin/mappings/mapping-row', ['fieldData' => $fieldData, 'configuration' => $configuration]) ?>
     <?php endforeach; ?>
-<?php endif; ?>
+<?php endif ?>

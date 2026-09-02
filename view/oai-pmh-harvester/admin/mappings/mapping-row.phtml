@@ -5,20 +5,20 @@
  * @var \OaiPmhHarvester\Api\Representation\ConfigurationRepresentation|null $configuration
  */
 
-$xpath = $fieldData['xpath'] ?? ''; 
+$xpath = $fieldData['xpath-cond'] ?? ''; 
 $property = $fieldData['property'] ?? ''; 
-$type =  $fieldData['property'] ?? '';
+$type =  $fieldData['type'] ?? '';
 
-switch ($fieldData['name']) {
-    case 'xpath':
-        $label = $this->translate('Query value');
-        break;
-    case 'literal-value-xpath-condition':
-        $label = $this->translate('Create value');
-        break;
-    default:
-        $label = '';
-}
+// switch ($fieldData['name']) {
+//     case 'xpath':
+//         $label = $this->translate('Query value');
+//         break;
+//     case 'literal-value-xpath-condition':
+//         $label = $this->translate('Create value');
+//         break;
+//     default:
+//         $label = '';
+// }
 $typeLabel = '';
 if ($type) {
     $typeLabel = $this->dataType()->getLabel($fieldData['type'] ?? 'literal');
@@ -29,13 +29,12 @@ if ($type) {
 ?>
 
 <li class="fields-field row"
-    data-field-name="<?php echo $this->escapeHtml($fieldData['name']); ?>"
     data-field-data="<?php echo $this->escapeHtml(json_encode($fieldData)); ?>">
     <span class="fields-field-restore" style="display: none;"><?php echo $this->translate('Mapping to be removed'); ?></span>
     <span class="fields-field-summary">
         <span class="sortable-handle"></span>
         <span class="row">
-            <span class="fields-field-name"><?=$label?></span>
+            <span class="fields-field-name">Rule </span>
             <span class="oaipmhharvester-monospace fields-field-term"><?= $this->escapeHtml($property) ?> (<?= $this->escapeHtml($this->translate($typeLabel)) ?>) </span> 
         </span>
         <ul class="actions">
@@ -54,10 +53,5 @@ if ($type) {
                 ]); ?></li>
         </ul>
     </span>
-    <?php if ($xpath): ?>
-        <span class="fields-field-expr">
-            <span class="field-meta"> <?php echo $this->translate('Xpath Expression'); ?> :</span>
-            <span class="oaipmhharvester-monospace"><?= $this->escapeHtml($xpath) ?></span>
-        </span>
-    <?php endif; ?>
+    <?= $this->partial('oai-pmh-harvester/admin/mappings/rule', ['rule' => $fieldData]) ?>
 </li>

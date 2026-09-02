@@ -1,0 +1,27 @@
+<?php
+/**
+* @var rule array[mixed]
+*/
+
+$truthyOp = $rule['truthy-kind'] == 'xpath-query' 
+    ? "<b>Query Value</b>" 
+    : "<b>Create Value</b>"; 
+$falsyOp = $rule['falsy-kind'] == 'xpath-query' 
+    ? "<b>Query Value</b>" 
+    : "<b>Create Value</b>"; 
+
+// Render rule in pre
+$ruleContent = '';
+if ($rule['xpath-cond']) {
+    $ruleContent = $ruleContent . '<b>IF</b> <span class="rule-op">' . $this->escapeHtml($rule['xpath-cond']) . '</span> <b>THEN</b></br>    ';
+}
+
+$ruleContent = $ruleContent . $truthyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['truthy-input']) . '</span></br>';
+
+if ($rule['xpath-cond']) {
+    $ruleContent = $ruleContent . '<b>ELSE</b></br>    ' . $falsyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['falsy-input']) . '</span> ';
+}
+
+?>
+<!-- This is ugly because of the pre  --> 
+<pre class='rule'><?=$ruleContent?></pre>

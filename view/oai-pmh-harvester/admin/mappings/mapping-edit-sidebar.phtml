@@ -2,30 +2,19 @@
 /**
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Laminas\Form\Form $form
- * @var string $name
  */
 
-switch ($name) {
-    case 'xpath':
-        $title = $this->translate('Query value');
-        break;
-    case 'literal-value-xpath-condition':
-        $title = $this->translate('Create value');
-        break;
-    default:
-        $title = '';
-}
 ?>
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
 <div class="sidebar-content">
     <div class="confirm-main">
         <div id="fields-field-form">
-            <h3><?php echo $this->translate('Edit '); echo $title; ?> </h3>
+            <h3><?php echo $this->translate('Edit Rule'); ?> </h3>
 
             <?= $this->formCollection($form, false) ?>
         </div>
     </div>
     <div class="confirm-panel">
-        <button type="button" id="fields-field-set-button"><?php echo $this->translate('Set mapping'); ?></button>
+        <button type="button" id="fields-field-set-button"><?php echo $this->translate('Save Rule'); ?></button>
     </div>
 </div>
