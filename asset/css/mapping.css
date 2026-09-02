@@ -4,10 +4,11 @@
 }
 
 button.fields-field-add-button {
-      margin-left: .5rem;
+  margin-left: .5rem;
+  width: 100%;
 }
 
-ul.fields-fields {
+.fields-fields {
     padding-left: 0;
     list-style: none;
 }
@@ -28,4 +29,16 @@ ul.fields-fields {
 
 .oaipmhharvester-monospace {
     font-family: "Source Code Pro", monospace;
+}
+
+.rule {
+  padding: 0;
+  white-space: pre-wrap;
+  margin-left: 2em;
+  & > .rule-op {
+    font-family: "Source Code Pro", monospace;
+    background-color: rgba(0,0,0,.04);
+    padding: .125em .25em;
+    /* border-radius: .25em; */
+  }
 }

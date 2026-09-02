@@ -1,3 +1,4 @@
+<?php $this->headLink()->appendStylesheet($this->assetUrl('css/mapping.css', 'OaiPmhHarvester')); ?>
 <dl>
     <?php $namespaces = $settings['namespaces'] ?? [] ?>
     <?php if ($namespaces): ?>
@@ -27,46 +28,27 @@
     <?php $mappings = $settings['mappings'] ?? [] ?>
     <?php if ($mappings): ?>
         <div class="property">
-            <dt><?= $this->translate('Mappings') ?></dt>
-            <dd>
-                <table class="tablesaw">
-                    <thead>
-                        <tr>
-                            <th><?= $this->translate('Mapping') ?></th>
-                            <th><?= $this->translate('XPath') ?></th>
-                            <th><?= $this->translate('Property') ?></th>
-                            <th><?= $this->translate('Type') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($mappings as $mapping): ?>
-                            <?php
-                                $label = '';
-                                switch ($mapping['name']) {
-                                    case 'xpath':
-                                        $label = $this->translate('Query value');
-                                        break;
-                                    case 'literal-value-xpath-condition':
-                                        $label = $this->translate('Create value');
-                                        break;
-                                    default:
-                                        $label = '';
-                                }
-
-                                $typeLabel = $this->dataType()->getLabel($mapping['type'] ?? 'literal'); 
-                                if (str_starts_with($mapping['type'], 'customvocab')) {
-                                    $typeLabel = 'CusomVocab - ' . $typeLabel;
-                                }
-                            ?>
-                            <tr>
-                                <td><?= $label ?></td>
-                                <td><?= $this->escapeHtml($mapping['xpath'] ?? '') ?></td>
-                                <td><?= $this->escapeHtml($mapping['property'] ?? '') ?></td>
-                                <td><?= $this->escapeHtml($this->translate($typeLabel)) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <dt><?= $this->translate('Mapping Rules') ?></dt>
+            <dd class="fields-field row">
+                <?php foreach ($mappings as $mapping): ?>
+                    <?php
+                    $typeLabel = '';
+                    $property = $mapping['property'];
+                    if ($mapping['type']) {
+                        $typeLabel = $this->dataType()->getLabel($mapping['type'] ?? 'literal');
+                        if (str_starts_with($mapping['type'], 'customvocab')) {
+                            $typeLabel = 'CusomVocab - ' . $typeLabel;
+                        }
+                    }
+                    ?>
+                    <div class="fields-field-summary row ">
+                        <span class="fields-field-name">Rule </span>
+                        <span class="fields-field-term">
+                            <?= $this->escapeHtml($property) ?> (<?= $this->escapeHtml($this->translate($typeLabel)) ?>) 
+                        </span> 
+                    </div>
+                    <?= $this->partial('oai-pmh-harvester/admin/mappings/rule', ['rule' => $mapping]) ?>
+                <?php endforeach; ?>
             </dd>
         </div>
     <?php endif; ?>
