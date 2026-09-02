@@ -16,7 +16,6 @@ use OaiPmhHarvester\Form\Element\Fields;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\PropertyRepresentation;
 use Omeka\Form\Element\ArrayTextarea;
-use boolean;
 
 class XPathConverter implements ConfigurableConverterInterface
 {
@@ -56,7 +55,7 @@ class XPathConverter implements ConfigurableConverterInterface
         $errors = libxml_get_errors();
         if (!$xpath_result && $errors) {
             $errors_string = implode('\n\t', array_map(fn($it) => sprintf("LibXml error code %d : %s", $it->code, trim($it->message)), $errors));
-            $this->logger->err(sprintf("Errors while exectuing XPath expression %s : \n %s", $expr, $errors_string));
+            $this->logger->err(sprintf("Errors while executing XPath expression %s : \n %s", $expr, $errors_string));
             return null;
         }
         return $xpath_result;
@@ -87,19 +86,28 @@ class XPathConverter implements ConfigurableConverterInterface
                 continue;
             }
 
+            if ($mapping['xpath-cond'] != null) {
+                $xpath_cond_result = $this->evalXpath($xpath, $element, $mapping['xpath-cond']);
+                if ($xpath_cond_result === null) { 
+                    $this->logger->err(sprintf("Error while executing xpath for mapping for %s.", $mapping['property']));
+                    continue;
+                }
+                $branch = $xpath_cond_result ? 'truthy' : 'falsy';
+            } else {
+                $branch = 'truthy';
+            }
+
             $value = '';
-            $xpath_result = $this->evalXpath($xpath, $element, $mapping['xpath']);
-            if ($xpath_result === null) { 
-                $this->logger->err(sprintf("Error while executing xpath for mapping for %s.", $mapping['property']));
-                continue;
-            }
-            if (!$xpath_result instanceof DOMNodeList) {
-            }
-            switch ($mapping['name']) {
-                case 'xpath': 
-                    $replacements = $this->stringToKeyValues($mapping['replacements'] ?? '');
-                    if ($xpath_result instanceof DOMNodeList) {
-                        foreach ($xpath_result as $node) {
+            switch ($mapping[$branch . '-kind'] ?? '') {
+                case 'xpath-query': 
+                    $replacements = $this->stringToKeyValues($mapping[$branch . '-replacements'] ?? '');
+                    $xpath_query_result = $this->evalXpath($xpath, $element, $mapping[$branch . '-input']);
+                    if ($xpath_query_result == null) {
+                        $this->logger->err(sprintf("Error while executing xpath for mapping for %s in query for branch %s.", $mapping['property'], $branch));
+                        continue 2;
+                    }
+                    if ($xpath_query_result instanceof DOMNodeList) {
+                        foreach ($xpath_query_result as $node) {
                             $value = trim($node->textContent);
                             if ($value === '') {
                                 break;
@@ -115,21 +123,24 @@ class XPathConverter implements ConfigurableConverterInterface
                             $this->addValueToItem($itemData, $property, $type, $value, $lang);
                         }
                     } else {
-                        if ($xpath_result === '') {
+                        if ($xpath_query_result === '') {
                             break;
                         }
-                        if (array_key_exists($xpath_result, $replacements)) {
-                            $value = $replacements[$value];
+                        if (array_key_exists($xpath_query_result, $replacements)) {
+                            $value = $replacements[$xpath_query_result];
                         } else {
-                            $value = $xpath_result;
+                            $value = $xpath_query_result;
                         }
                         $this->addValueToItem($itemData, $property, $type, $value);
                     }
                     break;
-                case 'literal-value-xpath-condition':
-                    $value = $xpath_result ? $mapping['truthy-value'] : $mapping['falsy-value'];
+                case 'create-value':
+                    $value = $mapping[$branch . '-input'];
                     $this->addValueToItem($itemData, $property, $type, $value);
                     break;
+                case '':
+                    $this->logger->err(sprintf("Missing Operation kind for %s : %s", $branch, $mapping['name']));
+                    break; 
                 default:
                     $this->logger->err(sprintf("Unknown mapping: %s", $mapping['name']));
                     break;

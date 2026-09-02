@@ -57,7 +57,6 @@ return [
         ],
         'factories' => [
             Form\MappingForm::class => Service\Form\MappingFormFactory::class,
-            Form\LiteralValueForm::class => Service\Form\LiteralValueFormFactory::class,
             Form\HarvestForm::class => Service\Form\HarvestFormFactory::class,
             Form\ConfigurationAddForm::class => Service\Form\ConfigurationAddFormFactory::class,
             Form\SourceAddForm::class => Service\Form\SourceAddFormFactory::class,
