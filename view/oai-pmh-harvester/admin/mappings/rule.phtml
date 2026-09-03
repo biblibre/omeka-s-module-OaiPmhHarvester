@@ -5,32 +5,36 @@
 
 if (array_key_exists('truthy-kind', $rule)) {
     $truthyOp = $rule['truthy-kind'] == 'xpath-query' 
-        ? "<b>Query Value</b>" 
-        : "<b>Create Value</b>"; 
+        ? "<b>Query Value</b>"  // @translate
+        : "<b>Create Value</b>";  // @translate
 } else {
     $truthyOp = '';
 }
 
 if (array_key_exists('falsy-kind', $rule)) {
     $falsyOp = $rule['falsy-kind'] == 'xpath-query' 
-        ? "<b>Query Value</b>" 
-        : "<b>Create Value</b>"; 
+        ? "<b>Query Value</b>"  // @translate
+        : "<b>Create Value</b>";  // @translate
 } else {
     $falsyOp = '';
 }
+
+$if = 'IF'; // @translate
+$then = 'THEN'; // @translate
+$else = 'ELSE'; // @translate
 
 // Render rule in pre
 $ruleContent = '';
 if (array_key_exists('xpath-cond', $rule) && $rule['xpath-cond']) {
     $ruleContent = $ruleContent 
-        . '<b>IF</b> <span class="rule-op">' . $this->escapeHtml($rule['xpath-cond']) . '</span> <b>THEN</b></br>    ';
+        . "<b>$if</b> <span class=\"rule-op\">" . $this->escapeHtml($rule['xpath-cond']) . "</span> <b>$then</b></br>    ";
 }
 
 $ruleContent = $ruleContent . $truthyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['truthy-input']) . '</span></br>';
 
-if (array_key_exists('xpath-cond', $rule) && $rule['xpath-cond']) {
+if (array_key_exists('xpath-cond', $rule) && $rule['xpath-cond'] && $falsyOp) {
     $ruleContent = $ruleContent 
-        . '<b>ELSE</b></br>    ' . $falsyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['falsy-input']) . '</span> ';
+        . "<b>$else</b></br>    " . $falsyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['falsy-input']) . '</span> ';
 }
 
 ?>
