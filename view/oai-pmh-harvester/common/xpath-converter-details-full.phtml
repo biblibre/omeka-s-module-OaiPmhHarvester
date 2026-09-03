@@ -47,7 +47,7 @@
                             <?= $this->escapeHtml($property) ?> (<?= $this->escapeHtml($this->translate($typeLabel)) ?>) 
                         </span> 
                     </div>
-                    <?= $this->partial('oai-pmh-harvester/admin/mappings/rule', ['rule' => $mapping]) ?>
+                    <?= $this->partial('oai-pmh-harvester/common/rule', ['rule' => $mapping]) ?>
                 <?php endforeach; ?>
             </dd>
         </div>
