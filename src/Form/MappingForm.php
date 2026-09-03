@@ -77,7 +77,8 @@ class MappingForm extends Form
             'attributes' => [
                 'data-field-data-key' => 'xpath-cond',
                 'class' => 'oaipmhharvester-monospace',
-                'placeholder' => "Xpath that evaluates to a truthy value (true, a node, a string, or a number) or false that determines what is ran.", // @translate
+                'placeholder' => 'Xpath that evaluates to a truthy value (true, a node, a string, or a number) or false that determines what is ran.', // @translate
+                'default-value' => 'true()'
             ],
         ]);
 

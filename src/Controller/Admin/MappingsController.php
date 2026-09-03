@@ -7,7 +7,7 @@ use OaiPmhHarvester\Form\MappingForm;
 
 class MappingsController extends AbstractActionController
 {
-    public function fieldListAction(): ViewModel
+    public function listAction(): ViewModel
     {
         $configuration_id = $this->params()->fromQuery('configuration_id');
         $configuration = $this->api()->read('oaipmhharvester_configurations', $configuration_id)->getContent();
@@ -19,7 +19,7 @@ class MappingsController extends AbstractActionController
         return $view;
     }
 
-    public function fieldRowAction(): ViewModel
+    public function rowAction(): ViewModel
     {
         $configuration_id = $this->params()->fromQuery('configuration_id');
         $fieldData = $this->params()->fromQuery('field_data');
@@ -34,7 +34,7 @@ class MappingsController extends AbstractActionController
         return $view;
     }
 
-    public function fieldEditSidebarAction(): ViewModel
+    public function editSidebarAction(): ViewModel
     {
         $fieldData = $this->params()->fromQuery('field_data');
         $this->logger()->info($fieldData);

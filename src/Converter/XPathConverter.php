@@ -201,25 +201,9 @@ class XPathConverter implements ConfigurableConverterInterface
             'options' => [
                 'label' => 'Mappings', // @translate
                 'empty_option' => 'Add a mapping', // @translate
-                'value_options' => [
-                    [
-                        'value' => 'xpath',
-                        'label' => 'Query a value from an XPath expression', // @translate
-                        'attributes' => [
-                            'data-repeatable' => '1',
-                        ],
-                    ],
-                    [
-                        'value' => 'literal-value-xpath-condition',
-                        'label' => 'Create a value with an XPath condition', // @translate
-                        'attributes' => [
-                            'data-repeatable' => '2',
-                        ],
-                    ],
-                ],
-                'field_list_url' => $url('admin/oaipmhharvester/mappings', ['action' => 'field-list'], ['query' => ['configuration_id' => $configuration->id()]]),
-                'field_row_url' => $url('admin/oaipmhharvester/mappings', ['action' => 'field-row'], ['query' => ['configuration_id' => $configuration->id()]]),
-                'field_edit_sidebar_url' => $url('admin/oaipmhharvester/mappings', ['action' => 'field-edit-sidebar'], ['query' => ['configuration_id' => $configuration->id()]]),
+                'field_list_url' => $url('admin/oaipmhharvester/mappings', ['action' => 'list'], ['query' => ['configuration_id' => $configuration->id()]]),
+                'field_row_url' => $url('admin/oaipmhharvester/mappings', ['action' => 'row'], ['query' => ['configuration_id' => $configuration->id()]]),
+                'field_edit_sidebar_url' => $url('admin/oaipmhharvester/mappings', ['action' => 'edit-sidebar'], ['query' => ['configuration_id' => $configuration->id()]]),
             ],
         ]);
     }
