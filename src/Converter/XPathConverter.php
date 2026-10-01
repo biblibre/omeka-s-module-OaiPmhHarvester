@@ -86,21 +86,36 @@ class XPathConverter implements ConfigurableConverterInterface
                 continue;
             }
 
+            $op = 'noop';
             if ($mapping['xpath-cond'] != null) {
                 $xpath_cond_result = $this->evalXpath($xpath, $element, $mapping['xpath-cond']);
                 if ($xpath_cond_result === null) { 
                     $this->logger->err(sprintf("Error while executing xpath for mapping for %s.", $mapping['property']));
                     continue;
                 }
-                $branch = $xpath_cond_result ? 'truthy' : 'falsy';
+
+                if ($xpath_cond_result) {
+                    $op = $mapping['truthy-kind'];
+                    $branch = 'truthy';
+                } else {
+                    // Setting falsy to branch is ok no operation is performed on noop.
+                    $branch = 'falsy'; 
+                    $op = $mapping['falsy-kind'] ? $mapping['falsy-kind'] : 'noop';
+                }
+
             } else {
+                $op = $mapping['truthy-kind'];
                 $branch = 'truthy';
             }
 
             $value = '';
-            switch ($mapping[$branch . '-kind'] ?? '') {
-                case 'xpath-query': 
+            switch ($op) {
+                case 'xpath-query':
                     $replacements = $this->stringToKeyValues($mapping[$branch . '-replacements'] ?? '');
+                    if (!$mapping[$branch . '-input']) {
+                        $this->logger->err(sprintf("Missing xpath query for %s branch of property %s.", $branch, $mapping['property']));
+                        continue 2;
+                    }
                     $xpath_query_result = $this->evalXpath($xpath, $element, $mapping[$branch . '-input']);
                     if ($xpath_query_result == null) {
                         $this->logger->err(sprintf("Error while executing xpath for mapping for %s in query for branch %s.", $mapping['property'], $branch));
@@ -135,11 +150,18 @@ class XPathConverter implements ConfigurableConverterInterface
                     }
                     break;
                 case 'create-value':
+                    if (!$mapping[$branch . '-input']) {
+                        $this->logger->err(sprintf("Missing value for create value for %s branch of property %s.", $branch, $mapping['property']));
+                    }
                     $value = $mapping[$branch . '-input'];
                     $this->addValueToItem($itemData, $property, $type, $value);
                     break;
+                case 'noop':
+                    // The branch evaluated to true but 
+                    // Nothing to do here. 
+                    break;
                 case '':
-                    $this->logger->err(sprintf("Missing Operation kind for %s : %s", $branch, $mapping['name']));
+                    $this->logger->err(sprintf("Missing Operation kind for property %s in branch %s", $mapping['property'], $branch));
                     break; 
                 default:
                     $this->logger->err(sprintf("Unknown mapping: %s", $mapping['name']));

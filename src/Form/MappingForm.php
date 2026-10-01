@@ -137,7 +137,7 @@ class MappingForm extends Form
             'options' => [
                 'label' => 'Opperation if false', // @translate
                 'info' => 'XPath expression, relative to the <oai:record> element, for instance "oai:metadata/oai_dc:dc/dc:title"', // @translate
-                'empty_option' => 'Operation kind',
+                'empty_option' => 'Operation kind (Leave empty for noop)',
                 'value_options' => [
                     'xpath-query' => 'Query value',
                     'create-value' => 'Create value',

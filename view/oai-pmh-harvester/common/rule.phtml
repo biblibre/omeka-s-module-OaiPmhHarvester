@@ -1,9 +1,14 @@
 <?php
 /**
-* @var rule array[mixed]
+* @var $rule array[mixed]
+* @var $this
 */
 
-if (array_key_exists('truthy-kind', $rule)) {
+$hasCond = array_key_exists('xpath-cond', $rule) && $rule['xpath-cond'] != '';
+$hasTruthy = array_key_exists('truthy-kind', $rule) && $rule['truthy-kind'] != '';
+$hasFalsy= array_key_exists('falsy-kind', $rule) && $rule['falsy-kind'] != '';
+
+if ($hasTruthy) {
     $truthyOp = $rule['truthy-kind'] == 'xpath-query' 
         ? "<b>Query Value</b>"  // @translate
         : "<b>Create Value</b>";  // @translate
@@ -11,11 +16,11 @@ if (array_key_exists('truthy-kind', $rule)) {
     $truthyOp = '';
 }
 
-if (array_key_exists('falsy-kind', $rule)) {
+if ($hasFalsy) {
     $falsyOp = $rule['falsy-kind'] == 'xpath-query' 
         ? "<b>Query Value</b>"  // @translate
         : "<b>Create Value</b>";  // @translate
-} else {
+}  else {
     $falsyOp = '';
 }
 
@@ -25,18 +30,19 @@ $else = 'ELSE'; // @translate
 
 // Render rule in pre
 $ruleContent = '';
-if (array_key_exists('xpath-cond', $rule) && $rule['xpath-cond']) {
+if ($hasCond && $hasTruthy) {
     $ruleContent = $ruleContent 
         . "<b>$if</b> <span class=\"rule-op\">" . $this->escapeHtml($rule['xpath-cond']) . "</span> <b>$then</b></br>    ";
 }
 
-$ruleContent = $ruleContent . $truthyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['truthy-input']) . '</span></br>';
+$ruleContent = $ruleContent . $truthyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['truthy-input'] ?? '' ) . '</span></br>';
 
-if (array_key_exists('xpath-cond', $rule) && $rule['xpath-cond'] && $falsyOp) {
+if ($hasCond && $hasFalsy) {
     $ruleContent = $ruleContent 
-        . "<b>$else</b></br>    " . $falsyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['falsy-input']) . '</span> ';
+        . "<b>$else</b></br>    " . $falsyOp . ' : <span class="rule-op">' . $this->escapeHtml($rule['falsy-input'] ?? '') . '</span> ';
 }
 
+
 ?>
-<!-- This is ugly because of the pre  --> 
+
 <pre class='rule'><?=$ruleContent?></pre>
