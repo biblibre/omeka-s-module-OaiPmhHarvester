@@ -83,7 +83,6 @@ class SourceController extends AbstractActionController
             'o:base_url' => $source->baseUrl(),
             'o:metadata_prefix' => $source->metadataPrefix(),
             'o:sets' => $source->sets(),
-            'o:update_mode' => $source->updateMode(),
         ]);
 
         if ($this->getRequest()->isPost()) {
@@ -178,6 +177,7 @@ class SourceController extends AbstractActionController
                     'delete_all_items' => $formData['delete_all_items'] ? true : false,
                     'from' => $formData['from'],
                     'until' => $formData['until'],
+                    'update_mode' => $formData['update_mode'] ?? '',
                 ];
                 $job = $this->jobDispatcher()->dispatch(HarvestSource::class, $args);
 

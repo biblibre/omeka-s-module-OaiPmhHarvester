@@ -425,3 +425,11 @@ if (version_compare($oldVersion, '3.4.19-biblibre.4', '<')) {
     SQL;
     $connection->executeStatement($sql);
 }
+
+if (version_compare($oldVersion, '3.4.19-biblibre.5', '<')) {
+    $sql = <<<'SQL'
+        ALTER TABLE oaipmhharvester_source
+        DROP COLUMN update_mode
+    SQL;
+    $connection->executeStatement($sql);
+}

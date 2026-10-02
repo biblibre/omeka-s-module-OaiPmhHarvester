@@ -97,7 +97,7 @@ class HarvestSource extends AbstractJob
         $configuration = $source->configuration();
         $converter = $configuration->converter();
 
-        $updateMode = $source->updateMode();
+        $updateMode = $this->getArg('update_mode', '');
         $updateModes = [
             self::UPDATE_MODE_REPLACE_ALL_METADATA,
             self::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK,

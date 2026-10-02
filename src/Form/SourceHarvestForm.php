@@ -5,6 +5,7 @@ namespace OaiPmhHarvester\Form;
 use Laminas\Form\Form;
 use Laminas\Form\Element\Checkbox;
 use Laminas\Form\Element\Text;
+use OaiPmhHarvester\Job\HarvestSource;
 
 class SourceHarvestForm extends Form
 {
@@ -43,6 +44,30 @@ class SourceHarvestForm extends Form
                 'pattern' => '\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}Z)?',
                 'title' => 'YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ', // @translate
             ],
+        ]);
+
+        $this->add([
+            'name' => 'update_mode',
+            'type' => 'Laminas\Form\Element\Select',
+            'options' => [
+                'label' => 'Update mode', // @translate
+                'info' => 'How existing items are updated', // @translate
+                'empty_option' => 'No update', // @translate
+                'value_options' => [
+                    HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA => 'Replace all metadata', // @translate
+                    HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK => 'Replace all metadata except ARK identifiers in dcterms:identifier', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'update-mode',
+            ],
+        ]);
+
+        $inputFilter = $this->getInputFilter();
+
+        $inputFilter->add([
+            'name' => 'update_mode',
+            'allow_empty' => true,
         ]);
     }
 }

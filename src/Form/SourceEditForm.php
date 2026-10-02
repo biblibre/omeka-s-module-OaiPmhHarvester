@@ -90,33 +90,10 @@ class SourceEditForm extends Form
             ],
         ]);
 
-        $this->add([
-            'name' => 'o:update_mode',
-            'type' => 'Laminas\Form\Element\Select',
-            'options' => [
-                'label' => 'Update mode', // @translate
-                'info' => 'How existing items are updated', // @translate
-                'empty_option' => 'No update', // @translate
-                'value_options' => [
-                    HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA => 'Replace all metadata', // @translate
-                    HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK => 'Replace all metadata except ARK identifiers in dcterms:identifier', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'sets',
-                'rows' => '10',
-            ],
-        ]);
-
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'o:base_url',
             'required' => false,
-        ]);
-
-        $inputFilter->add([
-            'name' => 'o:update_mode',
-            'allow_empty' => true,
         ]);
     }
 
