@@ -356,11 +356,11 @@ msgstr "Explorer les lots"
 
 #: view/oai-pmh-harvester/common/sets-textarea-form.phtml:14
 msgid "Set spec"
-msgstr "Spécification du set"
+msgstr "Spécification du lot"
 
 #: view/oai-pmh-harvester/common/sets-textarea-form.phtml:15
 msgid "Set name"
-msgstr "Nom du set"
+msgstr "Nom du lot"
 
 #: view/oai-pmh-harvester/common/xpath-converter-details-full.phtml:5
 #: view/oai-pmh-harvester/common/xpath-converter-details.phtml:4
@@ -518,11 +518,11 @@ msgstr "Par notice"
 
 #: src/Form/SetsForm.php:236
 msgid "Harvest this set?"
-msgstr "Moissonner ce set ?"
+msgstr "Moissonner ce lot ?"
 
 #: src/Form/SetsForm.php:273
 msgid "Harvest this set"
-msgstr "Moissonner ce set"
+msgstr "Moissonner ce lot"
 
 #: src/Form/SetsForm.php:287
 msgid "Whole repository"
