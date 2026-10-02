@@ -1,5 +1,13 @@
 # Changelog (BibLibre modifications)
 
+## [3.4.19-biblibre.6] - 2026-10-02
+
+- Fix french translation of "set"
+
+## [3.4.19-biblibre.5] - 2026-10-02
+
+- Move the update mode setting from source settings to harvest settings
+
 ## [3.4.19-biblibre.4] - 2026-04-30
 
 - Add ability to update existing items
@@ -23,6 +31,8 @@
 - Add sources and the ability to configure mappings for those sources
   <https://github.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/pull/7>
 
+[3.4.19-biblibre.6]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.6
+[3.4.19-biblibre.5]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.5
 [3.4.19-biblibre.4]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.4
 [3.4.19-biblibre.3]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.3
 [3.4.19-biblibre.2]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.2
