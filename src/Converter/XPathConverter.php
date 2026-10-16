@@ -16,6 +16,7 @@ use OaiPmhHarvester\Form\Element\Fields;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\PropertyRepresentation;
 use Omeka\Form\Element\ArrayTextarea;
+use function GuzzleHttp\json_encode;
 
 class XPathConverter implements ConfigurableConverterInterface
 {
@@ -94,15 +95,27 @@ class XPathConverter implements ConfigurableConverterInterface
                     continue;
                 }
 
-                if ($xpath_cond_result) {
-                    $op = $mapping['truthy-kind'];
-                    $branch = 'truthy';
+                // Determine if the result of the condition was truthy or falsy
+                if ($xpath_cond_result instanceof DOMNodeList) {
+                    if ($xpath_cond_result->length > 0) {
+                        $op = $mapping['truthy-kind'];
+                        $branch = 'truthy';
+                    } else {
+                        // Setting falsy to branch is ok no operation is performed on noop.
+                        $branch = 'falsy'; 
+                        $op = $mapping['falsy-kind'] ? $mapping['falsy-kind'] : 'noop';
+                    }
                 } else {
-                    // Setting falsy to branch is ok no operation is performed on noop.
-                    $branch = 'falsy'; 
-                    $op = $mapping['falsy-kind'] ? $mapping['falsy-kind'] : 'noop';
+                    if ($xpath_cond_result) {
+                        $op = $mapping['truthy-kind'];
+                        $branch = 'truthy';
+                    } else {
+                        // Setting falsy to branch is ok no operation is performed on noop.
+                        $branch = 'falsy'; 
+                        $op = $mapping['falsy-kind'] ? $mapping['falsy-kind'] : 'noop';
+                    }
                 }
-
+                
             } else {
                 $op = $mapping['truthy-kind'];
                 $branch = 'truthy';
