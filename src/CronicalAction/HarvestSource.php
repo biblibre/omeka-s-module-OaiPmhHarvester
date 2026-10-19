@@ -56,6 +56,7 @@ class HarvestSource extends AbstractJobDispatchAction
     {
         $sourceId = $scheduledActionRun->setting('source');
         $from = $scheduledActionRun->setting('from', '');
+        $update_mode = $scheduledActionRun->setting('update_mode', '');
 
         if ($from === 'last_harvest') {
             $em = $this->getEntityManager();
@@ -76,6 +77,7 @@ class HarvestSource extends AbstractJobDispatchAction
             'source_id' => $sourceId,
             'owner_id' => $scheduledActionRun->setting('owner_id'),
             'from' => $from,
+            'update_mode' => $update_mode,
         ];
     }
 
@@ -119,6 +121,20 @@ class HarvestSource extends AbstractJobDispatchAction
             'options' => [
                 'label' => 'Selective harvesting (days)', // @translate
                 'info' => 'If selective harvesting is set to "Harvest records added or modified since <n> days", this parameter controls the number of days.', // @translate
+            ],
+        ]);
+
+        $form->get('o:settings')->add([
+            'name' => 'update_mode',
+            'type' => 'Laminas\Form\Element\Select',
+            'options' => [
+                'label' => 'Update mode', // @translate
+                'info' => 'How existing items are updated', // @translate
+                'empty_option' => 'No update', // @translate
+                'value_options' => [
+                    \OaiPmhHarvester\Job\HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA => 'Replace all metadata', // @translate
+                    \OaiPmhHarvester\Job\HarvestSource::UPDATE_MODE_REPLACE_ALL_METADATA_BUT_ARK => 'Replace all metadata except ARK identifiers in dcterms:identifier', // @translate
+                ],
             ],
         ]);
 
