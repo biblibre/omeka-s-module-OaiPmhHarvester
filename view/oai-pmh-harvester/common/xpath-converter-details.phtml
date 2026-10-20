@@ -13,7 +13,18 @@
     <div class="meta-group">
         <h4><?= $this->translate('Mappings') ?></h4>
         <?php foreach ($mappings as $mapping): ?>
-            <div class="value"><?= $this->escapeHtml($mapping['xpath']) ?> → <?= $this->escapeHtml($mapping['property']) ?></div>
+
+        <div class="value"><?php
+            $typeLabel = '';
+            if ($mapping['type']) {
+                $typeLabel = $this->dataType()->getLabel($mapping['type'] ?? 'literal');
+                if (str_starts_with($mapping['type'], 'customvocab')) {
+                    $typeLabel = 'CusomVocab - ' . $typeLabel;
+                }
+            }
+            echo $mapping['property'] . "($typeLabel)";
+        ?> </div>
+            
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
