@@ -1,5 +1,10 @@
 # Changelog (BibLibre modifications)
 
+## Unreleased
+
+- Add 'Accept' header to HTTP requests sent to OAI-PMH repositories because
+  some repositories refuse to reply when it is not set
+
 ## [3.4.19-biblibre.6] - 2026-10-02
 
 - Fix french translation of "set"

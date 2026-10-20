@@ -7,6 +7,7 @@ use DOMXPath;
 use Laminas\Http\Client as HttpClient;
 use Laminas\Http\Response;
 use Laminas\Log\Logger;
+use OaiPmhHarvester\OaiPmh\IdentifyDocument;
 use OaiPmhHarvester\OaiPmh\ListRecordsDocument;
 use OaiPmhHarvester\OaiPmh\ListSetsDocument;
 use OaiPmhHarvester\OaiPmh\ListMetadataFormatsDocument;
@@ -29,6 +30,18 @@ class Client
         if ($maxTries > 0) {
             $this->maxTries = $maxTries;
         }
+    }
+
+    public function identify(string $baseUrl): IdentifyDocument
+    {
+        $response = $this->request($baseUrl, ['verb' => 'Identify']);
+        $xml = $response->getBody();
+        $dom = new IdentifyDocument();
+        if (false === $dom->loadXML($xml)) {
+            throw new \Exception(sprintf('Failed to parse response body as XML: %s', $xml));
+        }
+
+        return $dom;
     }
 
     public function listRecords(string $baseUrl, array $args): ListRecordsDocument
@@ -100,6 +113,7 @@ class Client
 
         $request = new \Laminas\Http\Request();
         $request->setUri($uri);
+        $request->getHeaders()->addHeaderLine('Accept', '*/*');
 
         $tries = 0;
         do {

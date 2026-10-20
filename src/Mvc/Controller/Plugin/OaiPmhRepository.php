@@ -134,9 +134,13 @@ class OaiPmhRepository extends AbstractPlugin
             return false;
         }
 
-        $url = $endpoint . '?verb=Identify';
-        $response = @\simplexml_load_file($url);
-        return (bool) $response;
+        try {
+            $this->client->identify($endpoint);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     public function hasOaiPmhManagedFormats(?string $endpoint = null): bool
@@ -154,12 +158,14 @@ class OaiPmhRepository extends AbstractPlugin
         if (!$endpoint) {
             return null;
         }
-        $url = $endpoint . '?verb=Identify';
-        $response = @\simplexml_load_file($url);
-        if (!$response) {
+
+        try {
+            $document = $this->client->identify($endpoint);
+        } catch (\Exception $e) {
             return null;
         }
-        return (string) $response->Identify->repositoryName;
+
+        return $document->getRepositoryName();
     }
 
     /**
