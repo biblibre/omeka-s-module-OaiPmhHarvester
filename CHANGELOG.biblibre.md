@@ -1,6 +1,6 @@
 # Changelog (BibLibre modifications)
 
-## Unreleased
+## [3.4.19-biblibre.7] - 2026-10-20
 
 - Add 'Accept' header to HTTP requests sent to OAI-PMH repositories because
   some repositories refuse to reply when it is not set
@@ -36,6 +36,7 @@
 - Add sources and the ability to configure mappings for those sources
   <https://github.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/pull/7>
 
+[3.4.19-biblibre.7]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.7
 [3.4.19-biblibre.6]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.6
 [3.4.19-biblibre.5]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.5
 [3.4.19-biblibre.4]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.4
