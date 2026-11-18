@@ -1,6 +1,6 @@
 # Changelog (BibLibre modifications)
 
-## Unreleased
+## [3.4.19-biblibre.8] - 2026-11-18
 
 - Add schedulable (Cronical) action to harvest a source
 - Remove empty parameters from OAI-PMH query to avoid errors with repositories
@@ -42,6 +42,7 @@
 - Add sources and the ability to configure mappings for those sources
   <https://github.com/Daniel-KM/Omeka-S-module-OaiPmhHarvester/pull/7>
 
+[3.4.19-biblibre.8]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.8
 [3.4.19-biblibre.7]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.7
 [3.4.19-biblibre.6]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.6
 [3.4.19-biblibre.5]: https://github.com/biblibre/omeka-s-module-OaiPmhHarvester/releases/tag/v3.4.19-biblibre.5
