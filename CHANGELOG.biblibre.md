@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Add schedulable (Cronical) action to harvest a source
+- Remove empty parameters from OAI-PMH query to avoid errors with repositories
+  that consider empty parameters as invalid
 
 ## [3.4.19-biblibre.7] - 2026-10-20
 

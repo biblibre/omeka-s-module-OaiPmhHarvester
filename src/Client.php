@@ -52,24 +52,20 @@ class Client
             throw new \Exception('Missing required argument metadataPrefix or resumptionToken');
         }
 
-        $query = [
-            'verb' => 'ListRecords',
-            'metadataPrefix' => $metadataPrefix,
-            'set' => $args['set'] ?? null,
-            'from' => $args['from'] ?? null,
-            'until' => $args['until'] ?? null,
-        ];
-
         if ($resumptionToken) {
             $query = ['verb' => 'ListRecords', 'resumptionToken' => $resumptionToken];
         } else {
+
             $query = [
                 'verb' => 'ListRecords',
                 'metadataPrefix' => $metadataPrefix,
-                'set' => $args['set'] ?? null,
-                'from' => $args['from'] ?? null,
-                'until' => $args['until'] ?? null,
             ];
+
+            foreach (['set', 'from', 'until'] as $key) {
+                if (isset($args[$key]) && trim($args[$key]) !== '') {
+                    $query[$key] = $args[$key];
+                }
+            };
         }
         $response = $this->request($baseUrl, $query);
         $xml = $response->getBody();
