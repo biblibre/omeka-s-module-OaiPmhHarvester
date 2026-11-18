@@ -1,5 +1,9 @@
 # Changelog (BibLibre modifications)
 
+## Unreleased
+
+- Add schedulable (Cronical) action to harvest a source
+
 ## [3.4.19-biblibre.7] - 2026-10-20
 
 - Add 'Accept' header to HTTP requests sent to OAI-PMH repositories because
